@@ -481,17 +481,20 @@
         .gallery-item img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s;
+            object-fit: contain;
+            background: #f5f5f5;
+            padding: 10px;
+            transition: transform 0.4s, padding 0.4s;
         }
 
         .gallery-item:hover {
-            transform: scale(1.05) rotate(2deg);
+            transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.4);
         }
 
         .gallery-item:hover img {
-            transform: scale(1.1);
+            transform: scale(1.02);
+            padding: 5px;
         }
 
         .gallery-overlay {
@@ -643,12 +646,136 @@
         .fade-in-section {
             opacity: 0;
             transform: translateY(50px);
-            transition: all 0.8s ease;
+            transition: all 1s ease;
         }
 
         .fade-in-section.visible {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* Animaciones específicas por sección */
+        .countdown-section.fade-in-section {
+            transform: scale(0.9);
+        }
+
+        .countdown-section.fade-in-section.visible {
+            transform: scale(1);
+        }
+
+        .story-section.fade-in-section {
+            transform: translateY(60px);
+            opacity: 0;
+        }
+
+        .story-section.fade-in-section.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .padrinos-grid .padrino-card {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in-section.visible .padrino-card:nth-child(1) {
+            opacity: 1;
+            transform: translateX(0);
+            transition-delay: 0.2s;
+        }
+
+        .fade-in-section.visible .padrino-card:nth-child(2) {
+            opacity: 1;
+            transform: translateX(0);
+            transition-delay: 0.4s;
+        }
+
+        .event-cards .event-card {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in-section.visible .event-card:nth-child(1) {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.3s;
+        }
+
+        .fade-in-section.visible .event-card:nth-child(2) {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.5s;
+        }
+
+        .timeline-item {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s ease;
+        }
+
+        .timeline-item:nth-child(odd) {
+            transform: translateX(30px);
+        }
+
+        .fade-in-section.visible .timeline-item {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in-section.visible .timeline-item:nth-child(1) { transition-delay: 0.1s; }
+        .fade-in-section.visible .timeline-item:nth-child(2) { transition-delay: 0.2s; }
+        .fade-in-section.visible .timeline-item:nth-child(3) { transition-delay: 0.3s; }
+        .fade-in-section.visible .timeline-item:nth-child(4) { transition-delay: 0.4s; }
+        .fade-in-section.visible .timeline-item:nth-child(5) { transition-delay: 0.5s; }
+
+        .gallery-grid .gallery-item {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in-section.visible .gallery-item:nth-child(1) {
+            opacity: 1;
+            transform: scale(1);
+            transition-delay: 0.1s;
+        }
+
+        .fade-in-section.visible .gallery-item:nth-child(2) {
+            opacity: 1;
+            transform: scale(1);
+            transition-delay: 0.2s;
+        }
+
+        .fade-in-section.visible .gallery-item:nth-child(3) {
+            opacity: 1;
+            transform: scale(1);
+            transition-delay: 0.3s;
+        }
+
+        .fade-in-section.visible .gallery-item:nth-child(4) {
+            opacity: 1;
+            transform: scale(1);
+            transition-delay: 0.4s;
+        }
+
+        .info-grid .info-card {
+            opacity: 0;
+            transform: translateY(30px) rotate(-2deg);
+            transition: all 0.7s ease;
+        }
+
+        .fade-in-section.visible .info-card:nth-child(1) {
+            opacity: 1;
+            transform: translateY(0) rotate(0deg);
+            transition-delay: 0.2s;
+        }
+
+        .fade-in-section.visible .info-card:nth-child(2) {
+            opacity: 1;
+            transform: translateY(0) rotate(0deg);
+            transition-delay: 0.4s;
         }
     </style>
 </head>
@@ -784,7 +911,7 @@
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <div class="timeline-time">8:00 PM</div>
+                        <div class="timeline-time">7:30 PM</div>
                         <div class="timeline-text">Recepción</div>
                     </div>
                     <div class="timeline-dot"></div>
@@ -792,21 +919,21 @@
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <div class="timeline-time">9:00 PM</div>
-                        <div class="timeline-text">Cena</div>
+                        <div class="timeline-text">Vals</div>
                     </div>
                     <div class="timeline-dot"></div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <div class="timeline-time">10:00 PM</div>
-                        <div class="timeline-text">Vals de los Festejados</div>
+                        <div class="timeline-text">Cena</div>
                     </div>
                     <div class="timeline-dot"></div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <div class="timeline-time">11:00 PM</div>
-                        <div class="timeline-text">Fiesta</div>
+                        <div class="timeline-time">12:00 AM</div>
+                        <div class="timeline-text">Batucada</div>
                     </div>
                     <div class="timeline-dot"></div>
                 </div>
@@ -819,12 +946,6 @@
             <div class="divider"></div>
             <p class="section-subtitle" style="color: white;">50 años de amor eterno</p>
             <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="https://chaadj-code.github.io/bodas-de-oro/foto1.png" alt="Eleodoro y María Elena - Bodas de Oro">
-                    <div class="gallery-overlay">
-                        <p>50 Años de Amor ❤️</p>
-                    </div>
-                </div>
                 <div class="gallery-item">
                     <img src="https://chaadj-code.github.io/bodas-de-oro/foto2.png" alt="Eleodoro y María Elena - Boda Original">
                     <div class="gallery-overlay">
@@ -841,6 +962,12 @@
                     <img src="https://chaadj-code.github.io/bodas-de-oro/foto4.png" alt="Eleodoro y María Elena jóvenes">
                     <div class="gallery-overlay">
                         <p>Juntos para siempre 💍</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://chaadj-code.github.io/bodas-de-oro/foto1.png" alt="Eleodoro y María Elena - Bodas de Oro">
+                    <div class="gallery-overlay">
+                        <p>50 Años de Amor ❤️</p>
                     </div>
                 </div>
             </div>
