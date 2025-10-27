@@ -19,7 +19,7 @@
             background: #000;
         }
 
-        /* Video/Image Background Hero */
+        /* Hero Section */
         .hero-section {
             position: relative;
             height: 100vh;
@@ -102,6 +102,7 @@
         .hero-names .ampersand {
             font-size: 0.8em;
             margin: 10px 0;
+            color: #D4AF37;
         }
 
         .hero-names .name-bottom {
@@ -121,29 +122,6 @@
             margin-top: 20px;
             font-weight: 300;
             letter-spacing: 2px;
-        }
-
-        /* Audio Control */
-        .audio-prompt {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(212, 175, 55, 0.9);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            z-index: 100;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-        }
-
-        .audio-prompt:hover {
-            background: #D4AF37;
-            transform: scale(1.05);
         }
 
         .scroll-indicator {
@@ -193,7 +171,6 @@
             font-style: italic;
         }
 
-        /* Divider ornamental */
         .divider {
             width: 100px;
             height: 3px;
@@ -308,8 +285,8 @@
         }
 
         .padrino-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8em;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2em;
             color: #6B7B5E;
             margin-bottom: 20px;
         }
@@ -321,7 +298,7 @@
             font-weight: 400;
         }
 
-        /* Event Details with Cards */
+        /* Event Details */
         .event-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -355,8 +332,8 @@
         }
 
         .event-card-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2em;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5em;
             margin-bottom: 10px;
         }
 
@@ -528,75 +505,11 @@
             transition: transform 0.4s;
             color: white;
             text-align: center;
+            font-size: 1.1em;
         }
 
         .gallery-item:hover .gallery-overlay {
             transform: translateY(0);
-        }
-
-        /* RSVP Form */
-        .rsvp-section {
-            background: white;
-        }
-
-        .rsvp-container {
-            max-width: 600px;
-            margin: 50px auto;
-            background: linear-gradient(135deg, rgba(107, 123, 94, 0.05), rgba(212, 175, 55, 0.05));
-            padding: 50px;
-            border-radius: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 1.1em;
-            color: #6B7B5E;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 1em;
-            font-family: 'Lato', sans-serif;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #D4AF37;
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
-        }
-
-        .submit-button {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #6B7B5E, #8B956D);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.3em;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-            box-shadow: 0 5px 20px rgba(107, 123, 94, 0.3);
-        }
-
-        .submit-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(107, 123, 94, 0.5);
         }
 
         /* Dress Code */
@@ -629,6 +542,7 @@
         .dress-code-description {
             font-size: 1.2em;
             opacity: 0.9;
+            line-height: 1.6;
         }
 
         /* Info Cards */
@@ -663,8 +577,8 @@
         }
 
         .info-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8em;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2em;
             color: #6B7B5E;
             margin-bottom: 15px;
         }
@@ -708,11 +622,12 @@
             opacity: 0.8;
         }
 
-</head>
-<body>
-    <!-- Hero Section -->
+        /* Responsive */
         @media (max-width: 768px) {
             .hero-names { font-size: 3.5em; }
+            .hero-names .name-top,
+            .hero-names .name-bottom { font-size: 1em; }
+            .hero-names .ampersand { font-size: 0.8em; }
             .hero-subtitle { font-size: 1.5em; }
             .section-title { font-size: 2.5em; }
             .golden-number { font-size: 5em; }
@@ -722,7 +637,6 @@
             .timeline-item { flex-direction: column !important; padding-left: 50px; }
             .timeline-content { width: 100%; }
             .timeline-dot { left: 20px; }
-            .rsvp-container { padding: 30px 20px; }
         }
 
         /* Animaciones de entrada */
@@ -799,7 +713,7 @@
 
         <!-- Padrinos -->
         <section class="section fade-in-section">
-            <h2 class="section-title">Con la Bendición de</h2>
+            <h2 class="section-title">Con la Bendición de Dios</h2>
             <div class="divider"></div>
             <div class="padrinos-grid">
                 <div class="padrino-card">
@@ -899,21 +813,39 @@
             </div>
         </section>
 
-        <!-- Gallery -->
+        <!-- Gallery CON LAS FOTOS REALES -->
         <section class="section gallery-section fade-in-section">
             <h2 class="section-title">Galería de Recuerdos</h2>
             <div class="divider"></div>
-            <p class="section-subtitle" style="color: white;">50 años de momentos inolvidables</p>
+            <p class="section-subtitle" style="color: white;">50 años de amor eterno</p>
             <div class="gallery-grid">
-                <div class="gallery-item" style="background: linear-gradient(135deg, #D4AF37, #C9A961);">📸</div>
-                <div class="gallery-item" style="background: linear-gradient(135deg, #6B7B5E, #8B956D);">💑</div>
-                <div class="gallery-item" style="background: linear-gradient(135deg, #C9A961, #D4AF37);">❤️</div>
-                <div class="gallery-item" style="background: linear-gradient(135deg, #8B956D, #6B7B5E);">👨‍👩‍👧‍👦</div>
-                <div class="gallery-item" style="background: linear-gradient(135deg, #D4AF37, #B8984E);">🎂</div>
-                <div class="gallery-item" style="background: linear-gradient(135deg, #6B7B5E, #8B956D);">🌹</div>
+                <div class="gallery-item">
+                    <img src="https://chaadj-code.github.io/bodas-de-oro/foto1.png" alt="Eleodoro y María Elena - Bodas de Oro">
+                    <div class="gallery-overlay">
+                        <p>50 Años de Amor ❤️</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://chaadj-code.github.io/bodas-de-oro/foto2.png" alt="Eleodoro y María Elena - Boda Original">
+                    <div class="gallery-overlay">
+                        <p>Donde todo comenzó 💑</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://chaadj-code.github.io/bodas-de-oro/foto3.png" alt="Eleodoro y María Elena - El día de su boda">
+                    <div class="gallery-overlay">
+                        <p>Nuestro gran día 🤵👰</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://chaadj-code.github.io/bodas-de-oro/foto4.png" alt="Eleodoro y María Elena jóvenes">
+                    <div class="gallery-overlay">
+                        <p>Juntos para siempre 💍</p>
+                    </div>
+                </div>
             </div>
             <p style="margin-top: 40px; font-size: 1.1em; font-style: italic; opacity: 0.9;">
-                *Aquí puedes agregar tus fotos favoritas de estos 50 años*
+                "Cada foto cuenta una historia de amor que ha durado medio siglo"
             </p>
         </section>
 
@@ -941,15 +873,6 @@
                     <div class="info-text">
                         Su presencia es nuestro mejor regalo. Si desean obsequiarnos algo, 
                         agradeceremos un detalle monetario.
-                    </div>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">📱</div>
-                    <div class="info-title">Comparte el Momento</div>
-                    <div class="info-text">
-                        Usa nuestros hashtags:<br>
-                        <strong>#EleoYMaria50Años</strong><br>
-                        <strong>#BodasDeOro2025</strong>
                     </div>
                 </div>
             </div>
@@ -1004,7 +927,7 @@
             observer.observe(section);
         });
 
-        // Smooth scroll for all internal links
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
