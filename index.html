@@ -86,10 +86,26 @@
 
         .hero-names {
             font-family: 'Great Vibes', cursive;
-            font-size: 6em;
+            font-size: 5em;
             margin: 20px 0;
             text-shadow: 3px 3px 10px rgba(0,0,0,0.7);
-            line-height: 1.2;
+            line-height: 1.4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero-names .name-top {
+            font-size: 1em;
+        }
+
+        .hero-names .ampersand {
+            font-size: 0.8em;
+            margin: 10px 0;
+        }
+
+        .hero-names .name-bottom {
+            font-size: 1em;
         }
 
         .hero-subtitle {
@@ -161,7 +177,7 @@
         }
 
         .section-title {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Great Vibes', cursive;
             font-size: 3.5em;
             text-align: center;
             color: #6B7B5E;
@@ -621,6 +637,9 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             margin-top: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .info-card {
@@ -726,7 +745,11 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <div class="hero-ornament">💍</div>
-            <div class="hero-names">Eleodoro & María Elena</div>
+            <div class="hero-names">
+                <span class="name-top">Eleodoro</span>
+                <span class="ampersand">&</span>
+                <span class="name-bottom">María Elena</span>
+            </div>
             <div class="hero-subtitle">BODAS DE ORO</div>
             <div class="hero-date">15 DE NOVIEMBRE, 2025</div>
         </div>
@@ -894,38 +917,6 @@
             </p>
         </section>
 
-        <!-- RSVP -->
-        <section class="section rsvp-section fade-in-section">
-            <h2 class="section-title">Confirma tu Asistencia</h2>
-            <div class="divider"></div>
-            <p class="section-subtitle">Tu presencia es el mejor regalo que podemos recibir</p>
-            <div class="rsvp-container">
-                <form onsubmit="handleFormSubmit(event)">
-                    <div class="form-group">
-                        <label>Nombre Completo *</label>
-                        <input type="text" required placeholder="Ingresa tu nombre">
-                    </div>
-                    <div class="form-group">
-                        <label>¿Confirmas tu asistencia? *</label>
-                        <select required>
-                            <option value="">Selecciona una opción</option>
-                            <option value="si">Sí, asistiré con gusto</option>
-                            <option value="no">No podré asistir</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Número de acompañantes</label>
-                        <input type="number" min="0" max="10" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label>Mensaje para los festejados (opcional)</label>
-                        <textarea rows="4" placeholder="Escribe tus felicitaciones..."></textarea>
-                    </div>
-                    <button type="submit" class="submit-button">Confirmar Asistencia</button>
-                </form>
-            </div>
-        </section>
-
         <!-- Dress Code -->
         <section class="section dress-code-section fade-in-section">
             <h2 class="section-title">Código de Vestimenta</h2>
@@ -934,7 +925,7 @@
                 <div class="dress-code-icon">👔</div>
                 <div class="dress-code-text">FORMAL / ETIQUETA</div>
                 <div class="dress-code-description">
-                    Les pedimos vestir de manera elegante para esta ocasión especial
+                    Les pedimos vestir de manera elegante para esta ocasión especial y al menos una prenda color verde olivo.
                 </div>
             </div>
         </section>
@@ -950,14 +941,6 @@
                     <div class="info-text">
                         Su presencia es nuestro mejor regalo. Si desean obsequiarnos algo, 
                         agradeceremos un detalle monetario.
-                    </div>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">🏨</div>
-                    <div class="info-title">Hospedaje</div>
-                    <div class="info-text">
-                        Para invitados de fuera de la ciudad, recomendamos: 
-                        Hotel Plaza (a 10 minutos del evento)
                     </div>
                 </div>
                 <div class="info-card">
@@ -1002,13 +985,6 @@
         
         updateCountdown();
         setInterval(updateCountdown, 1000);
-
-        // Form Submit
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            alert('¡Gracias por confirmar tu asistencia! Pronto recibirás más detalles por correo.');
-            event.target.reset();
-        }
 
         // Scroll Animations
         const observerOptions = {
