@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bodas de Oro - María & José</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #f8f8f8;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Cortinas de flores que se abren */
+        .curtain {
+            position: fixed;
+            top: 0;
+            width: 50%;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(107, 123, 94, 0.95), rgba(139, 149, 109, 0.95));
+            z-index: 9999;
+            transition: transform 1.5s ease-out;
+            overflow: hidden;
+        }
+
+        .curtain::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(212, 175, 55, 0.2) 0%, transparent 40%);
+        }
+
+        .curtain-left {
+            left: 0;
+            border-right: 3px solid #D4AF37;
+        }
+
+        .curtain-right {
+            right: 0;
+            border-left: 3px solid #D4AF37;
+        }
+
+        .curtain-left.open {
+            transform: translateX(-100%);
+        }
+
+        .curtain-right.open {
+            transform: translateX(100%);
+        }
+
+        /* Decoración floral en las cortinas */
+        .flower-decoration {
+            position: absolute;
+            font-size: 3em;
+            opacity: 0.6;
+            animation: floatFlower 4s ease-in-out infinite;
+        }
+
+        @keyframes floatFlower {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .curtain-left .flower-decoration:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+        .curtain-left .flower-decoration:nth-child(2) { top: 30%; left: 60%; animation-delay: 0.5s; }
+        .curtain-left .flower-decoration:nth-child(3) { top: 50%; left: 30%; animation-delay: 1s; }
+        .curtain-left .flower-decoration:nth-child(4) { top: 70%; left: 50%; animation-delay: 1.5s; }
+        .curtain-left .flower-decoration:nth-child(5) { top: 85%; left: 25%; animation-delay: 2s; }
+
+        .curtain-right .flower-decoration:nth-child(1) { top: 15%; right: 25%; animation-delay: 0.3s; }
+        .curtain-right .flower-decoration:nth-child(2) { top: 35%; right: 55%; animation-delay: 0.8s; }
+        .curtain-right .flower-decoration:nth-child(3) { top: 55%; right: 35%; animation-delay: 1.3s; }
+        .curtain-right .flower-decoration:nth-child(4) { top: 75%; right: 60%; animation-delay: 1.8s; }
+        .curtain-right .flower-decoration:nth-child(5) { top: 90%; right: 30%; animation-delay: 2.3s; }
+
+        /* Efecto de brillo en las cortinas */
+        .curtain::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(107, 123, 94, 0.7), rgba(107, 123, 94, 0.7)),
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1600') center/cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-ornament {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4em;
+            font-weight: 300;
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+        }
+
+        .hero .couple-names {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5em;
+            font-weight: 700;
+            margin: 20px 0;
+            line-height: 1.2;
+        }
+
+        .hero .ampersand {
+            font-size: 0.8em;
+            font-style: italic;
+            color: #D4AF37;
+        }
+
+        .hero .date {
+            font-size: 2em;
+            margin-top: 30px;
+            font-weight: 300;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            font-size: 2em;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+        }
+
+        /* Section común */
+        section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5em;
+            color: #6B7B5E;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        /* Countdown */
+        .countdown-section {
+            background: linear-gradient(135deg, #6B7B5E 0%, #8B956D 100%);
+            color: white;
+        }
+
+        .countdown-section .section-title {
+            color: white;
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .countdown-box {
+            background: #D4AF37;
+            padding: 25px 35px;
+            border-radius: 15px;
+            min-width: 100px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .countdown-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: white;
+        }
+
+        .countdown-label {
+            font-size: 1em;
+            margin-top: 5px;
+            color: white;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        /* Mensaje especial */
+        .message-section {
+            background: #f8f8f8;
+        }
+
+        .message-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4em;
+            line-height: 1.8;
+            color: #555;
+            font-style: italic;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .anniversary-number {
+            font-size: 6em;
+            font-weight: bold;
+            color: #D4AF37;
+            margin: 30px 0;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Padrinos */
+        .padrinos-section {
+            background: white;
+        }
+
+        .padrinos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .padrino-card {
+            text-align: center;
+        }
+
+        .padrino-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        .padrino-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3em;
+            color: #6B7B5E;
+            margin-bottom: 10px;
+        }
+
+        .padrino-card p {
+            font-size: 1.5em;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Ubicación */
+        .location-section {
+            background: #f8f8f8;
+        }
+
+        .location-info {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .location-info h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2em;
+            color: #6B7B5E;
+            margin-bottom: 15px;
+        }
+
+        .location-info p {
+            font-size: 1.1em;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        .location-info .time {
+            font-size: 1.3em;
+            color: #D4AF37;
+            font-weight: 500;
+            margin: 15px 0;
+        }
+
+        .map-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #6B7B5E, #8B956D);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .map-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(107, 123, 94, 0.4);
+        }
+
+        /* Timeline */
+        .timeline-section {
+            background: white;
+        }
+
+        .timeline {
+            max-width: 600px;
+            margin: 40px auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #D4AF37;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .timeline-time {
+            width: 45%;
+            text-align: right;
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #D4AF37;
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: #D4AF37;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 0 2px #D4AF37;
+            z-index: 1;
+        }
+
+        .timeline-content {
+            width: 45%;
+            text-align: left;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        /* Música */
+        .music-section {
+            background: linear-gradient(135deg, #6B7B5E 0%, #8B956D 100%);
+            color: white;
+        }
+
+        .music-section .section-title {
+            color: #D4AF37;
+        }
+
+        .music-player {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .music-player p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        .play-button {
+            background: #D4AF37;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .play-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Galería */
+        .gallery-section {
+            background: #f8f8f8;
+        }
+
+        .gallery-container {
+            position: relative;
+            max-width: 500px;
+            height: 600px;
+            margin: 40px auto;
+            perspective: 1000px;
+        }
+
+        .photo-stack {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+
+        .photo-item {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5em;
+            border: 8px solid white;
+        }
+
+        .photo-item:nth-child(1) {
+            transform: translateZ(0px) rotate(0deg);
+            z-index: 5;
+        }
+
+        .photo-item:nth-child(2) {
+            transform: translateZ(-20px) rotate(-3deg);
+            z-index: 4;
+        }
+
+        .photo-item:nth-child(3) {
+            transform: translateZ(-40px) rotate(2deg);
+            z-index: 3;
+        }
+
+        .photo-item:nth-child(4) {
+            transform: translateZ(-60px) rotate(-2deg);
+            z-index: 2;
+        }
+
+        .photo-item:nth-child(5) {
+            transform: translateZ(-80px) rotate(3deg);
+            z-index: 1;
+        }
+
+        .photo-item.moved {
+            transform: translateX(150%) rotate(20deg) !important;
+            opacity: 0;
+        }
+
+        /* RSVP */
+        .rsvp-section {
+            background: white;
+        }
+
+        .rsvp-form {
+            max-width: 500px;
+            margin: 40px auto;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1.1em;
+            color: #6B7B5E;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Montserrat', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #D4AF37;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #6B7B5E, #8B956D);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(107, 123, 94, 0.4);
+        }
+
+        /* Código de vestimenta */
+        .dress-code-section {
+            background: #6B7B5E;
+            color: white;
+            padding: 80px 20px;
+        }
+
+        .dress-code-section .section-title {
+            color: #D4AF37;
+        }
+
+        .dress-code-content {
+            font-size: 1.4em;
+            margin-top: 20px;
+        }
+
+        .dress-code-icon {
+            font-size: 4em;
+            margin: 20px 0;
+        }
+
+        /* Info adicional */
+        .info-section {
+            background: #f8f8f8;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .info-card-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .info-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5em;
+            color: #6B7B5E;
+            margin-bottom: 15px;
+        }
+
+        .info-card p {
+            font-size: 1em;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #6B7B5E 0%, #8B956D 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .footer-hearts {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .footer h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5em;
+            color: #D4AF37;
+            margin-bottom: 15px;
+        }
+
+        .footer p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        /* Music control flotante */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #D4AF37;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero .couple-names { font-size: 3em; }
+            .hero .date { font-size: 1.5em; }
+            .section-title { font-size: 2em; }
+            .countdown-box { min-width: 80px; padding: 20px 25px; }
+            .countdown-number { font-size: 2.5em; }
+            .timeline::before { left: 30px; }
+            .timeline-item { flex-direction: column; align-items: flex-start; padding-left: 60px; }
+            .timeline-time { width: 100%; text-align: left; margin-bottom: 10px; }
+            .timeline-content { width: 100%; text-align: left; }
+            .timeline-dot { position: absolute; left: 21px; }
+            .gallery-container { height: 500px; }
+            .photo-item { font-size: 3em; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cortinas florales que se abren -->
+    <div class="curtain curtain-left" id="curtainLeft">
+        <div class="flower-decoration">🌸</div>
+        <div class="flower-decoration">🌿</div>
+        <div class="flower-decoration">🌺</div>
+        <div class="flower-decoration">🌸</div>
+        <div class="flower-decoration">🌿</div>
+    </div>
+    <div class="curtain curtain-right" id="curtainRight">
+        <div class="flower-decoration">🌺</div>
+        <div class="flower-decoration">🌸</div>
+        <div class="flower-decoration">🌿</div>
+        <div class="flower-decoration">🌺</div>
+        <div class="flower-decoration">🌸</div>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-ornament">💍</div>
+        <h1>BODAS DE ORO</h1>
+        <div class="couple-names">
+            Eleodoro <span class="ampersand">&</span> María Elena
+        </div>
+        <div class="date">15 de Noviembre, 2025 • 6:00 PM</div>
+        <div class="scroll-down" onclick="document.querySelector('.countdown-section').scrollIntoView({behavior: 'smooth'})">↓</div>
+    </section>
+
+    <div class="container">
+        <!-- Countdown -->
+        <section class="countdown-section">
+            <h2 class="section-title">Nos casamos en</h2>
+            <div class="countdown-container">
+                <div class="countdown-box">
+                    <div class="countdown-number" id="days">0</div>
+                    <div class="countdown-label">Días</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="hours">0</div>
+                    <div class="countdown-label">Horas</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="minutes">0</div>
+                    <div class="countdown-label">Minutos</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="seconds">0</div>
+                    <div class="countdown-label">Segundos</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mensaje -->
+        <section class="message-section">
+            <div class="anniversary-number">50 AÑOS</div>
+            <h2 class="section-title">Nuestro Amor Eterno</h2>
+            <p class="message-text">
+                "Medio siglo de amor compartido, de sueños cumplidos y de una vida construida juntos. 
+                Hoy celebramos esta hermosa historia que inspira a toda nuestra familia. 
+                Los invitamos a compartir con nosotros este día tan especial."
+            </p>
+        </section>
+
+        <!-- Padrinos -->
+        <section class="padrinos-section">
+            <h2 class="section-title">Con la bendición de</h2>
+            <div class="padrinos-grid">
+                <div class="padrino-card">
+                    <div class="padrino-icon">👨‍👩‍👧‍👦</div>
+                    <h3>Padrinos de Velación</h3>
+                    <p>Crispín Cabrera Lozano</p>
+                    <p>Aide Jimenez Vargas</p>
+                </div>
+                <div class="padrino-card">
+                    <div class="padrino-icon">💑</div>
+                    <h3>Nuestros Hijos</h3>
+                    <p>Julio César Ariana Jimenez</p>
+                    <p>Eleodoro Ariana Jimenez</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ubicación -->
+        <section class="location-section">
+            <h2 class="section-title">¿Dónde y Cuándo?</h2>
+            
+            <div class="location-info">
+                <h3>⛪ Ceremonia Religiosa</h3>
+                <div class="time">6:00 PM</div>
+                <p><strong>Capilla de Nuestra Señora Guadalupe</strong></p>
+                <p>Parque el Veladero</p>
+                <p>39820 Acapulco de Juárez, Guerrero</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Capilla+de+nuestra+señora+Guadalupe+Parque+el+Veladero+39820+Acapulco+de+Juárez+Gro" class="map-button" target="_blank">📍 Ver ubicación en Google Maps</a>
+            </div>
+
+            <div class="location-info">
+                <h3>🎉 Recepción</h3>
+                <div class="time">8:00 PM</div>
+                <p><strong>Salón de Fiestas "La Barra"</strong></p>
+                <p>Frente Aurrera Costera</p>
+                <p>Av. Costera Miguel Alemán 179, Hornos</p>
+                <p>39355 Acapulco de Juárez, Guerrero</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Salón+de+fiestas+La+barra+Av+Costera+Miguel+Alemán+179+Hornos+39355+Acapulco+de+Juárez+Gro" class="map-button" target="_blank">📍 Ver ubicación en Google Maps</a>
+            </div>
+        </section>
+
+        <!-- Timeline -->
+        <section class="timeline-section">
+            <h2 class="section-title">Itinerario</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">6:00 PM</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">Ceremonia religiosa</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">8:00 PM</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">Recepción</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">9:00 PM</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">Cena</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">10:00 PM</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">Vals de los festejados</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">11:00 PM</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">Fiesta</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Música -->
+        <section class="music-section">
+            <h2 class="section-title">Nuestra Canción</h2>
+            <div class="music-player">
+                <p>🎵 Canción que nos representa</p>
+                <p style="font-style: italic; margin-top: 15px;">"Nombre de la canción - Artista"</p>
+                <button class="play-button" onclick="alert('Aquí se reproducirá tu canción favorita')">▶️ Reproducir</button>
+            </div>
+        </section>
+
+        <!-- Galería -->
+        <section class="gallery-section">
+            <h2 class="section-title">Galería de Recuerdos</h2>
+            <p style="color: #666; font-size: 1.1em; margin-bottom: 20px;">Toca las fotos para ver más</p>
+            <div class="gallery-container">
+                <div class="photo-stack" id="photoStack">
+                    <div class="photo-item" onclick="movePhoto(this)" style="background: linear-gradient(135deg, #D4AF37, #C9A961);">📸</div>
+                    <div class="photo-item" onclick="movePhoto(this)" style="background: linear-gradient(135deg, #8B956D, #6B7B5E);">💑</div>
+                    <div class="photo-item" onclick="movePhoto(this)" style="background: linear-gradient(135deg, #D4AF37, #B8984E);">❤️</div>
+                    <div class="photo-item" onclick="movePhoto(this)" style="background: linear-gradient(135deg, #6B7B5E, #5A6A4F);">👨‍👩‍👧‍👦</div>
+                    <div class="photo-item" onclick="movePhoto(this)" style="background: linear-gradient(135deg, #C9A961, #D4AF37);">🎂</div>
+                </div>
+            </div>
+            <p style="color: #666; font-size: 0.9em; margin-top: 20px; font-style: italic;">
+                *Aquí puedes agregar tus fotos reales de estos 50 años juntos*
+            </p>
+        </section>
+
+        <!-- RSVP -->
+        <section class="rsvp-section">
+            <h2 class="section-title">Confirma tu Asistencia</h2>
+            <p style="color: #666; font-size: 1.1em; margin-bottom: 30px;">
+                ¿Deseas confirmar tu asistencia?
+            </p>
+            <form class="rsvp-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label>Nombre completo *</label>
+                    <input type="text" required placeholder="Ingresa tu nombre">
+                </div>
+                <div class="form-group">
+                    <label>¿Asistirás? *</label>
+                    <select required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="si">Sí, asistiré con gusto</option>
+                        <option value="no">No podré asistir</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Número de acompañantes</label>
+                    <input type="number" min="0" max="10" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Mensaje para los festejados (opcional)</label>
+                    <textarea rows="4" placeholder="Escribe tus felicitaciones..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Confirmar Asistencia</button>
+            </form>
+        </section>
+
+        <!-- Código de vestimenta -->
+        <section class="dress-code-section">
+            <h2 class="section-title">Código de Vestimenta</h2>
+            <div class="dress-code-icon">👔</div>
+            <div class="dress-code-content">
+                <p><strong>Formal / Etiqueta</strong></p>
+                <p style="margin-top: 15px; font-size: 0.9em;">
+                    Les pedimos vestir de manera elegante para esta ocasión especial
+                </p>
+            </div>
+        </section>
+
+        <!-- Info adicional -->
+        <section class="info-section">
+            <h2 class="section-title">Información Adicional</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-card-icon">🎁</div>
+                    <h3>Mesa de Regalos</h3>
+                    <p>Su presencia es nuestro mejor regalo. Si desean obsequiarnos algo, agradeceremos un detalle monetario.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">🏨</div>
+                    <h3>Hospedaje</h3>
+                    <p>Para invitados de fuera, recomendamos: Hotel Plaza (10 min del evento)</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">📱</div>
+                    <h3>Hashtag</h3>
+                    <p>#MariaYJose50Años<br>#BodasDeOro</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-hearts">💛💚💛</div>
+        <h3>¡Gracias por acompañarnos!</h3>
+        <p>Eleodoro & María Elena</p>
+        <p style="font-size: 1.5em; margin-top: 20px;">50 Años de Amor</p>
+        <p style="margin-top: 30px; font-size: 0.9em; opacity: 0.8;">
+            Con todo nuestro amor, la familia
+        </p>
+    </footer>
+
+    <!-- Control de música flotante -->
+    <div class="music-control" id="musicControl" title="Reproducir música">🎵</div>
+
+    <script>
+        // Abrir cortinas al cargar la página
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('curtainLeft').classList.add('open');
+                document.getElementById('curtainRight').classList.add('open');
+            }, 500);
+        });
+
+        // Cuenta regresiva
+        const weddingDate = new Date('November 15, 2025 18:00:00').getTime();
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+            
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+                document.getElementById('seconds').textContent = seconds;
+            } else {
+                document.getElementById('days').textContent = '0';
+                document.getElementById('hours').textContent = '0';
+                document.getElementById('minutes').textContent = '0';
+                document.getElementById('seconds').textContent = '0';
+            }
+        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Galería de fotos apiladas
+        function movePhoto(element) {
+            element.classList.add('moved');
+            setTimeout(() => {
+                element.classList.remove('moved');
+                const parent = element.parentElement;
+                parent.appendChild(element);
+                
+                // Reorganizar z-index
+                const photos = parent.querySelectorAll('.photo-item');
+                photos.forEach((photo, index) => {
+                    photo.style.zIndex = photos.length - index;
+                });
+            }, 500);
+        }
+
+        // Control de música
+        let isPlaying = false;
+        const musicControl = document.getElementById('musicControl');
+        
+        musicControl.addEventListener('click', function() {
+            isPlaying = !isPlaying;
+            this.textContent = isPlaying ? '⏸️' : '🎵';
+            this.title = isPlaying ? 'Pausar música' : 'Reproducir música';
+            
+            if (isPlaying) {
+                // Aquí puedes agregar tu música real
+                alert('Música de fondo activada. Puedes agregar tu canción favorita aquí.');
+            }
+        });
+
+        // Formulario RSVP
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('¡Gracias por confirmar tu asistencia! Recibirás más detalles pronto.');
+            event.target.reset();
+        }
+
+        // Animaciones al hacer scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observar secciones para animaciones
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'all 0.8s ease';
+            observer.observe(section);
+        });
+
+        // Primera sección visible inmediatamente
+        document.querySelector('.countdown-section').style.opacity = '1';
+        document.querySelector('.countdown-section').style.transform = 'translateY(0)';
+    </script>
+</body>
+</html>
