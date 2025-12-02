@@ -3,79 +3,878 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eleodoro & María Elena - Bodas de Oro</title>
+    <title>XV Años - Sofía</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cinzel:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap');
-        
+        :root {
+            --purple-deep: #2D1B4E;
+            --purple-royal: #4A1D6B;
+            --purple-medium: #6B3FA0;
+            --purple-light: #9B6DD2;
+            --purple-soft: #C4A7E7;
+            --purple-pale: #E8DCFA;
+            --gold-accent: #D4AF37;
+            --gold-light: #F4E4B2;
+            --white-cream: #FDF8FF;
+            --text-dark: #1A0A2E;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Lato', sans-serif;
-            overflow-x: hidden;
-            background: #000;
+        html {
+            scroll-behavior: smooth;
         }
 
-        /* Hero Section */
-        .hero-section {
-            position: relative;
-            height: 100vh;
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: var(--purple-deep);
+            color: var(--white-cream);
+            overflow-x: hidden;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23D4AF37' d='M12 2L9 9L2 12L9 15L12 22L15 15L22 12L15 9L12 2Z'/%3E%3C/svg%3E"), auto;
+        }
+
+        /* ========== LOADING SCREEN ========== */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple-royal) 100%);
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            text-align: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-butterfly {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            animation: loadingFloat 2s ease-in-out infinite;
+        }
+
+        .loading-butterfly svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--gold-accent);
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
+        }
+
+        .loading-butterfly .wing-left,
+        .loading-butterfly .wing-right {
+            animation: wingFlap 0.3s ease-in-out infinite alternate;
+            transform-origin: center;
+        }
+
+        .loading-butterfly .wing-right {
+            animation-delay: 0.15s;
+        }
+
+        @keyframes wingFlap {
+            0% { transform: scaleX(1) rotateY(0deg); }
+            100% { transform: scaleX(0.6) rotateY(30deg); }
+        }
+
+        @keyframes loadingFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .loading-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: var(--gold-accent);
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 0.5s;
+        }
+
+        /* ========== PARTICLES BACKGROUND ========== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
             overflow: hidden;
         }
 
-        .hero-background {
+        .particle {
             position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold-accent);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat 8s infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) scale(1);
+            }
+        }
+
+        /* ========== FLOATING BUTTERFLIES ========== */
+        .butterflies-container {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-                        url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80') center/cover;
-            animation: zoomIn 20s ease-out infinite alternate;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
         }
 
-        @keyframes zoomIn {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
+        .butterfly {
+            position: absolute;
+            opacity: 0.6;
+            filter: drop-shadow(0 0 10px rgba(155, 109, 210, 0.3));
         }
 
-        .hero-overlay {
+        .butterfly svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .butterfly-1 {
+            width: 60px;
+            height: 60px;
+            top: 10%;
+            left: 5%;
+            animation: butterflyPath1 20s infinite ease-in-out;
+        }
+
+        .butterfly-2 {
+            width: 45px;
+            height: 45px;
+            top: 30%;
+            right: 10%;
+            animation: butterflyPath2 25s infinite ease-in-out;
+            animation-delay: -5s;
+        }
+
+        .butterfly-3 {
+            width: 50px;
+            height: 50px;
+            bottom: 20%;
+            left: 15%;
+            animation: butterflyPath3 22s infinite ease-in-out;
+            animation-delay: -10s;
+        }
+
+        .butterfly-4 {
+            width: 35px;
+            height: 35px;
+            top: 50%;
+            right: 5%;
+            animation: butterflyPath4 18s infinite ease-in-out;
+            animation-delay: -3s;
+        }
+
+        .butterfly-5 {
+            width: 55px;
+            height: 55px;
+            bottom: 40%;
+            right: 20%;
+            animation: butterflyPath5 23s infinite ease-in-out;
+            animation-delay: -8s;
+        }
+
+        @keyframes butterflyPath1 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(100px, -50px) rotate(15deg); }
+            50% { transform: translate(50px, 100px) rotate(-10deg); }
+            75% { transform: translate(-50px, 50px) rotate(5deg); }
+        }
+
+        @keyframes butterflyPath2 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-80px, 60px) rotate(-20deg); }
+            50% { transform: translate(-120px, -40px) rotate(10deg); }
+            75% { transform: translate(-40px, -80px) rotate(-5deg); }
+        }
+
+        @keyframes butterflyPath3 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(150px, -30px) rotate(25deg); }
+            66% { transform: translate(80px, -100px) rotate(-15deg); }
+        }
+
+        @keyframes butterflyPath4 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-100px, 80px) rotate(-30deg); }
+        }
+
+        @keyframes butterflyPath5 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-60px, -60px) rotate(20deg); }
+            50% { transform: translate(40px, -120px) rotate(-25deg); }
+            75% { transform: translate(100px, -40px) rotate(10deg); }
+        }
+
+        .butterfly svg path {
+            animation: wingAnimate 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes wingAnimate {
+            0% { transform: scaleX(1); }
+            100% { transform: scaleX(0.8); }
+        }
+
+        /* ========== HERO SECTION ========== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(107, 63, 160, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(155, 109, 210, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(74, 29, 107, 0.5) 0%, transparent 70%),
+                linear-gradient(180deg, var(--purple-deep) 0%, var(--purple-royal) 100%);
+            overflow: hidden;
+            padding: 2rem;
+        }
+
+        .hero::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, transparent 40%, rgba(107, 123, 94, 0.6) 100%);
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 2%),
+                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.08) 0%, transparent 1.5%),
+                radial-gradient(circle at 40% 80%, rgba(212, 175, 55, 0.12) 0%, transparent 2.5%),
+                radial-gradient(circle at 60% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 1.8%);
+            animation: shimmer 10s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
         .hero-content {
-            position: relative;
+            text-align: center;
             z-index: 10;
-            color: white;
-            animation: fadeInUp 1.5s ease;
+            max-width: 800px;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--gold-accent);
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.3s;
+        }
+
+        .hero-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(4rem, 15vw, 10rem);
+            color: var(--white-cream);
+            text-shadow: 
+                0 0 40px rgba(212, 175, 55, 0.3),
+                0 4px 20px rgba(0, 0, 0, 0.3);
+            line-height: 1;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInScale 1.2s ease forwards;
+            animation-delay: 0.6s;
+        }
+
+        .hero-name {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            color: var(--gold-accent);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.9s;
+        }
+
+        .hero-date {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            color: var(--purple-soft);
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 1.2s;
+        }
+
+        .ornament {
+            width: 200px;
+            height: 40px;
+            margin: 2rem auto;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 1.5s;
+        }
+
+        .ornament svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--gold-accent);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards, bounce 2s ease-in-out infinite;
+            animation-delay: 2s, 2s;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--purple-soft);
+        }
+
+        .scroll-indicator .arrow {
+            width: 30px;
+            height: 30px;
+            border-right: 2px solid var(--gold-accent);
+            border-bottom: 2px solid var(--gold-accent);
+            transform: rotate(45deg);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* ========== COUNTDOWN SECTION ========== */
+        .countdown-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--purple-royal) 0%, var(--purple-deep) 100%);
+            position: relative;
+        }
+
+        .countdown-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, var(--purple-royal));
+            pointer-events: none;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            text-align: center;
+            letter-spacing: 0.3em;
+            color: var(--gold-accent);
+            margin-bottom: 3rem;
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(145deg, rgba(107, 63, 160, 0.3), rgba(45, 27, 78, 0.5));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            padding: 2rem 2.5rem;
+            min-width: 120px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(212, 175, 55, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .countdown-number {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: var(--white-cream);
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .countdown-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--purple-soft);
+            margin-top: 0.5rem;
+        }
+
+        /* ========== MESSAGE SECTION ========== */
+        .message-section {
+            padding: 8rem 2rem;
+            background: 
+                radial-gradient(ellipse at 30% 50%, rgba(107, 63, 160, 0.2) 0%, transparent 50%),
+                var(--purple-deep);
+            position: relative;
+        }
+
+        .message-card {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 4rem;
+            background: linear-gradient(145deg, rgba(74, 29, 107, 0.4), rgba(45, 27, 78, 0.6));
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .message-card .butterfly-decoration {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            opacity: 0.3;
+        }
+
+        .message-card .butterfly-decoration.top-left {
+            top: -20px;
+            left: -20px;
+            transform: rotate(-30deg);
+        }
+
+        .message-card .butterfly-decoration.bottom-right {
+            bottom: -20px;
+            right: -20px;
+            transform: rotate(150deg);
+        }
+
+        .message-card .butterfly-decoration svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--gold-accent);
+        }
+
+        .message-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .message-quote {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: var(--gold-accent);
+            line-height: 1;
+        }
+
+        .message-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 300;
+            line-height: 2;
+            color: var(--purple-pale);
+            margin: 2rem 0;
+            font-style: italic;
+        }
+
+        .message-parents {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            color: var(--purple-soft);
+            margin-top: 2rem;
+        }
+
+        .message-parents span {
+            display: block;
+            color: var(--gold-light);
+            margin-top: 0.5rem;
+        }
+
+        /* ========== ITINERARY SECTION ========== */
+        .itinerary-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--purple-deep) 0%, var(--purple-royal) 50%, var(--purple-deep) 100%);
+        }
+
+        .itinerary-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--gold-accent), var(--gold-accent), transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 2rem 0;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -48px;
+            top: 2.5rem;
+            width: 16px;
+            height: 16px;
+            background: var(--purple-deep);
+            border: 3px solid var(--gold-accent);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            z-index: 1;
+        }
+
+        .timeline-item:hover::before {
+            transform: scale(1.3);
+            background: var(--gold-accent);
+        }
+
+        .timeline-time {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: var(--gold-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--white-cream);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-description {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: var(--purple-soft);
+            font-style: italic;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: -80px;
+            top: 2rem;
+            font-size: 2rem;
+            opacity: 0.6;
+        }
+
+        /* ========== VENUE SECTION ========== */
+        .venue-section {
+            padding: 6rem 2rem;
+            background: 
+                radial-gradient(ellipse at 70% 30%, rgba(155, 109, 210, 0.15) 0%, transparent 50%),
+                var(--purple-deep);
+        }
+
+        .venue-card {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .venue-card {
+                grid-template-columns: 1fr;
             }
         }
 
-        .hero-ornament {
-            font-size: 4em;
-            margin-bottom: 20px;
+        .venue-info {
+            padding: 2rem;
+        }
+
+        .venue-name {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: var(--gold-accent);
+            margin-bottom: 1rem;
+        }
+
+        .venue-address {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: var(--purple-soft);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .venue-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .venue-detail {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: var(--purple-pale);
+        }
+
+        .venue-detail-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(145deg, var(--purple-medium), var(--purple-royal));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .map-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(212, 175, 55, 0.2);
+            aspect-ratio: 4/3;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(30%) contrast(1.1);
+        }
+
+        .map-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(45, 27, 78, 0.3), transparent 30%, transparent 70%, rgba(45, 27, 78, 0.3));
+            pointer-events: none;
+        }
+
+        .map-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(145deg, var(--gold-accent), #B8962E);
+            color: var(--purple-deep);
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            border-radius: 50px;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .map-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        .map-button svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* ========== DRESS CODE SECTION ========== */
+        .dresscode-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--purple-deep) 0%, var(--purple-royal) 100%);
+        }
+
+        .dresscode-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .dresscode-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: var(--purple-soft);
+            margin-bottom: 3rem;
+            font-style: italic;
+        }
+
+        .colors-palette {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .color-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .color-swatch {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.3),
+                inset 0 -5px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.15) rotate(10deg);
+        }
+
+        .color-swatch.lavender { background: linear-gradient(145deg, #E6E6FA, #B8A9C9); }
+        .color-swatch.purple { background: linear-gradient(145deg, #9B6DD2, #6B3FA0); }
+        .color-swatch.plum { background: linear-gradient(145deg, #DDA0DD, #BA55D3); }
+        .color-swatch.gold { background: linear-gradient(145deg, #FFD700, #D4AF37); }
+        .color-swatch.silver { background: linear-gradient(145deg, #E8E8E8, #C0C0C0); }
+
+        .color-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9rem;
+            color: var(--purple-pale);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .dresscode-note {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: var(--gold-light);
+            background: rgba(212, 175, 55, 0.1);
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            display: inline-block;
+        }
+
+        /* ========== RSVP SECTION ========== */
+        .rsvp-section {
+            padding: 6rem 2rem;
+            background: 
+                radial-gradient(ellipse at 50% 50%, rgba(107, 63, 160, 0.3) 0%, transparent 60%),
+                var(--purple-deep);
+        }
+
+        .rsvp-card {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 4rem 3rem;
+            background: linear-gradient(145deg, rgba(74, 29, 107, 0.5), rgba(45, 27, 78, 0.7));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .rsvp-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
             animation: pulse 2s ease-in-out infinite;
         }
 
@@ -84,986 +883,692 @@
             50% { transform: scale(1.1); }
         }
 
-        .hero-names {
-            font-family: 'Great Vibes', cursive;
-            font-size: 5em;
-            margin: 20px 0;
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.7);
-            line-height: 1.4;
+        .rsvp-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: var(--purple-soft);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .rsvp-date {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--gold-accent);
+            margin-bottom: 2rem;
+        }
+
+        .rsvp-contact {
             display: flex;
             flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
             align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: var(--white-cream);
         }
 
-        .hero-names .name-top {
-            font-size: 1em;
-        }
-
-        .hero-names .ampersand {
-            font-size: 0.8em;
-            margin: 10px 0;
-            color: #D4AF37;
-        }
-
-        .hero-names .name-bottom {
-            font-size: 1em;
-        }
-
-        .hero-subtitle {
-            font-family: 'Playfair Display', serif;
-            font-size: 2em;
-            margin-top: 30px;
-            letter-spacing: 3px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-        }
-
-        .hero-date {
-            font-size: 1.5em;
-            margin-top: 20px;
-            font-weight: 300;
-            letter-spacing: 2px;
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            font-size: 2.5em;
-            animation: bounce 2s infinite;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translate(-50%, 0); }
-            50% { transform: translate(-50%, -15px); }
-        }
-
-        /* Main Content */
-        .main-content {
-            background: #fff;
-            position: relative;
-        }
-
-        /* Section Styling */
-        .section {
-            padding: 100px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.5em;
-            text-align: center;
-            color: #6B7B5E;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.2em;
-            color: #888;
-            margin-bottom: 50px;
-            font-style: italic;
-        }
-
-        .divider {
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(to right, transparent, #D4AF37, transparent);
-            margin: 30px auto;
-        }
-
-        .divider-ornament {
-            text-align: center;
-            font-size: 2em;
-            color: #D4AF37;
-            margin: 20px 0;
-        }
-
-        /* Countdown */
-        .countdown-section {
-            background: linear-gradient(135deg, #6B7B5E 0%, #8B956D 100%);
-            color: white;
-            text-align: center;
-        }
-
-        .countdown-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 30px;
-            max-width: 800px;
-            margin: 50px auto 0;
-        }
-
-        .countdown-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 40px 20px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(212, 175, 55, 0.5);
-            transition: all 0.3s;
-        }
-
-        .countdown-item:hover {
-            transform: translateY(-10px);
-            border-color: #D4AF37;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-        }
-
-        .countdown-number {
-            font-size: 4em;
-            font-weight: bold;
-            color: #D4AF37;
-            display: block;
-        }
-
-        .countdown-label {
-            font-size: 1.2em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 10px;
-        }
-
-        /* Story/Message */
-        .story-section {
-            background: #f9f9f9;
-        }
-
-        .story-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .golden-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 8em;
-            color: #D4AF37;
-            font-weight: bold;
-            margin: 30px 0;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
-        }
-
-        .story-text {
-            font-size: 1.3em;
-            line-height: 2;
-            color: #555;
-            font-style: italic;
-        }
-
-        /* Padrinos */
-        .padrinos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 50px;
-            margin-top: 50px;
-        }
-
-        .padrino-card {
-            text-align: center;
-            padding: 40px;
-            background: linear-gradient(135deg, rgba(107, 123, 94, 0.05), rgba(212, 175, 55, 0.05));
-            border-radius: 20px;
-            transition: all 0.4s;
-            border: 2px solid transparent;
-        }
-
-        .padrino-card:hover {
-            transform: translateY(-10px);
-            border-color: #D4AF37;
-            box-shadow: 0 15px 40px rgba(107, 123, 94, 0.2);
-        }
-
-        .padrino-icon {
-            font-size: 5em;
-            margin-bottom: 20px;
-        }
-
-        .padrino-title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.2em;
-            color: #6B7B5E;
-            margin-bottom: 20px;
-        }
-
-        .padrino-name {
-            font-size: 1.3em;
-            color: #333;
-            line-height: 1.6;
-            font-weight: 400;
-        }
-
-        /* Event Details */
-        .event-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
-        }
-
-        .event-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            transition: all 0.4s;
-        }
-
-        .event-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 20px 60px rgba(107, 123, 94, 0.3);
-        }
-
-        .event-card-header {
-            background: linear-gradient(135deg, #6B7B5E, #8B956D);
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-        }
-
-        .event-icon {
-            font-size: 4em;
-            margin-bottom: 15px;
-        }
-
-        .event-card-title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .event-time {
-            font-size: 1.8em;
-            color: #D4AF37;
-            font-weight: bold;
-        }
-
-        .event-card-body {
-            padding: 30px;
-            text-align: center;
-        }
-
-        .event-card-body p {
-            font-size: 1.1em;
-            color: #555;
-            margin: 10px 0;
-            line-height: 1.8;
-        }
-
-        .event-card-body strong {
-            color: #6B7B5E;
-            font-size: 1.2em;
-        }
-
-        .map-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 15px 40px;
-            background: linear-gradient(135deg, #D4AF37, #C9A961);
-            color: white;
+        .contact-item a {
+            color: var(--gold-light);
             text-decoration: none;
-            border-radius: 50px;
-            transition: all 0.3s;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            transition: color 0.3s ease;
         }
 
-        .map-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+        .contact-item a:hover {
+            color: var(--gold-accent);
         }
 
-        /* Timeline */
-        .timeline-section {
-            background: #f9f9f9;
-        }
-
-        .timeline {
-            max-width: 700px;
-            margin: 50px auto;
+        /* ========== FOOTER ========== */
+        .footer {
+            padding: 4rem 2rem;
+            background: var(--purple-deep);
+            text-align: center;
             position: relative;
-            padding: 20px 0;
+            overflow: hidden;
         }
 
-        .timeline::before {
+        .footer::before {
             content: '';
             position: absolute;
-            left: 50%;
             top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(to bottom, #D4AF37, #C9A961, #D4AF37);
-            transform: translateX(-50%);
-        }
-
-        .timeline-item {
-            display: flex;
-            margin: 40px 0;
-            position: relative;
-        }
-
-        .timeline-item:nth-child(odd) {
-            flex-direction: row-reverse;
-        }
-
-        .timeline-content {
-            width: 45%;
-            padding: 20px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-
-        .timeline-content:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(107, 123, 94, 0.2);
-        }
-
-        .timeline-time {
-            font-size: 1.5em;
-            color: #D4AF37;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .timeline-text {
-            color: #555;
-            font-size: 1.1em;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            background: #D4AF37;
-            border: 4px solid white;
-            border-radius: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 0 4px #D4AF37;
-            z-index: 1;
-        }
-
-        /* Gallery */
-        .gallery-section {
-            background: linear-gradient(135deg, #8B956D 0%, #6B7B5E 100%);
-            color: white;
-        }
-
-        .gallery-section .section-title {
-            color: #D4AF37;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 50px;
-        }
-
-        .gallery-item {
-            position: relative;
-            height: 350px;
-            border-radius: 15px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.4s;
-            background: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background: #f5f5f5;
-            padding: 10px;
-            transition: transform 0.4s, padding 0.4s;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.02);
-            padding: 5px;
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(107, 123, 94, 0.9), transparent);
-            padding: 20px;
-            transform: translateY(100%);
-            transition: transform 0.4s;
-            color: white;
-            text-align: center;
-            font-size: 1.1em;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-accent), transparent);
         }
 
-        .gallery-item:hover .gallery-overlay {
-            transform: translateY(0);
+        .footer-butterfly {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 2rem;
+            opacity: 0.6;
         }
 
-        /* Dress Code */
-        .dress-code-section {
-            background: #f9f9f9;
-        }
-
-        .dress-code-content {
-            max-width: 600px;
-            margin: 50px auto;
-            text-align: center;
-            padding: 50px;
-            background: #6B7B5E;
-            color: white;
-            border-radius: 25px;
-            box-shadow: 0 10px 40px rgba(107, 123, 94, 0.3);
-        }
-
-        .dress-code-icon {
-            font-size: 5em;
-            margin-bottom: 20px;
-        }
-
-        .dress-code-text {
-            font-size: 1.8em;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-
-        .dress-code-description {
-            font-size: 1.2em;
-            opacity: 0.9;
-            line-height: 1.6;
-        }
-
-        /* Info Cards */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .info-card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-            border-top: 5px solid #D4AF37;
-        }
-
-        .info-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(107, 123, 94, 0.2);
-        }
-
-        .info-icon {
-            font-size: 4em;
-            margin-bottom: 20px;
-        }
-
-        .info-title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2em;
-            color: #6B7B5E;
-            margin-bottom: 15px;
-        }
-
-        .info-text {
-            font-size: 1.1em;
-            color: #666;
-            line-height: 1.8;
-        }
-
-        /* Footer */
-        .footer {
-            background: linear-gradient(135deg, #6B7B5E 0%, #8B956D 100%);
-            color: white;
-            padding: 80px 20px 40px;
-            text-align: center;
-        }
-
-        .footer-ornament {
-            font-size: 4em;
-            margin-bottom: 30px;
-        }
-
-        .footer-names {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.5em;
-            margin-bottom: 20px;
-            color: #D4AF37;
+        .footer-butterfly svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--gold-accent);
         }
 
         .footer-text {
-            font-size: 1.3em;
-            margin: 15px 0;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            color: var(--gold-accent);
+            margin-bottom: 1rem;
+        }
+
+        .footer-names {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            letter-spacing: 0.3em;
+            color: var(--purple-soft);
         }
 
         .footer-hashtag {
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 2px solid rgba(255,255,255,0.2);
-            font-size: 1.1em;
-            opacity: 0.8;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: var(--purple-light);
+            margin-top: 2rem;
+            letter-spacing: 0.1em;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-names { font-size: 3.5em; }
-            .hero-names .name-top,
-            .hero-names .name-bottom { font-size: 1em; }
-            .hero-names .ampersand { font-size: 0.8em; }
-            .hero-subtitle { font-size: 1.5em; }
-            .section-title { font-size: 2.5em; }
-            .golden-number { font-size: 5em; }
-            .countdown-grid { grid-template-columns: repeat(2, 1fr); }
-            .event-cards { grid-template-columns: 1fr; }
-            .timeline::before { left: 20px; }
-            .timeline-item { flex-direction: column !important; padding-left: 50px; }
-            .timeline-content { width: 100%; }
-            .timeline-dot { left: 20px; }
+        /* ========== ANIMATIONS ========== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        /* Animaciones de entrada */
-        .fade-in-section {
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* ========== SCROLL ANIMATIONS ========== */
+        .reveal {
             opacity: 0;
             transform: translateY(50px);
-            transition: all 1s ease;
-        }
-
-        .fade-in-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Animaciones específicas por sección */
-        .countdown-section.fade-in-section {
-            transform: scale(0.9);
-        }
-
-        .countdown-section.fade-in-section.visible {
-            transform: scale(1);
-        }
-
-        .story-section.fade-in-section {
-            transform: translateY(60px);
-            opacity: 0;
-        }
-
-        .story-section.fade-in-section.visible {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .padrinos-grid .padrino-card {
-            opacity: 0;
-            transform: translateX(-50px);
             transition: all 0.8s ease;
         }
 
-        .fade-in-section.visible .padrino-card:nth-child(1) {
-            opacity: 1;
-            transform: translateX(0);
-            transition-delay: 0.2s;
-        }
-
-        .fade-in-section.visible .padrino-card:nth-child(2) {
-            opacity: 1;
-            transform: translateX(0);
-            transition-delay: 0.4s;
-        }
-
-        .event-cards .event-card {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease;
-        }
-
-        .fade-in-section.visible .event-card:nth-child(1) {
+        .reveal.visible {
             opacity: 1;
             transform: translateY(0);
-            transition-delay: 0.3s;
         }
 
-        .fade-in-section.visible .event-card:nth-child(2) {
-            opacity: 1;
-            transform: translateY(0);
-            transition-delay: 0.5s;
+        /* ========== MUSIC BUTTON ========== */
+        .music-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(145deg, var(--purple-medium), var(--purple-royal));
+            border: 2px solid var(--gold-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
         }
 
-        .timeline-item {
-            opacity: 0;
-            transform: translateX(-30px);
-            transition: all 0.6s ease;
+        .music-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
         }
 
-        .timeline-item:nth-child(odd) {
-            transform: translateX(30px);
+        .music-toggle svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--gold-accent);
         }
 
-        .fade-in-section.visible .timeline-item {
-            opacity: 1;
-            transform: translateX(0);
+        .music-toggle .bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 20px;
         }
 
-        .fade-in-section.visible .timeline-item:nth-child(1) { transition-delay: 0.1s; }
-        .fade-in-section.visible .timeline-item:nth-child(2) { transition-delay: 0.2s; }
-        .fade-in-section.visible .timeline-item:nth-child(3) { transition-delay: 0.3s; }
-        .fade-in-section.visible .timeline-item:nth-child(4) { transition-delay: 0.4s; }
-        .fade-in-section.visible .timeline-item:nth-child(5) { transition-delay: 0.5s; }
-
-        .gallery-grid .gallery-item {
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.6s ease;
+        .music-toggle .bar {
+            width: 4px;
+            background: var(--gold-accent);
+            border-radius: 2px;
+            animation: musicBar 0.5s ease-in-out infinite alternate;
         }
 
-        .fade-in-section.visible .gallery-item:nth-child(1) {
-            opacity: 1;
-            transform: scale(1);
-            transition-delay: 0.1s;
+        .music-toggle .bar:nth-child(1) { height: 8px; animation-delay: 0s; }
+        .music-toggle .bar:nth-child(2) { height: 16px; animation-delay: 0.1s; }
+        .music-toggle .bar:nth-child(3) { height: 12px; animation-delay: 0.2s; }
+        .music-toggle .bar:nth-child(4) { height: 18px; animation-delay: 0.3s; }
+
+        .music-toggle.paused .bar {
+            animation: none;
+            height: 4px;
         }
 
-        .fade-in-section.visible .gallery-item:nth-child(2) {
-            opacity: 1;
-            transform: scale(1);
-            transition-delay: 0.2s;
+        @keyframes musicBar {
+            from { height: 4px; }
+            to { height: 20px; }
         }
 
-        .fade-in-section.visible .gallery-item:nth-child(3) {
-            opacity: 1;
-            transform: scale(1);
-            transition-delay: 0.3s;
-        }
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 600px) {
+            .countdown-container {
+                gap: 1rem;
+            }
 
-        .fade-in-section.visible .gallery-item:nth-child(4) {
-            opacity: 1;
-            transform: scale(1);
-            transition-delay: 0.4s;
-        }
+            .countdown-item {
+                padding: 1.5rem;
+                min-width: 100px;
+            }
 
-        .info-grid .info-card {
-            opacity: 0;
-            transform: translateY(30px) rotate(-2deg);
-            transition: all 0.7s ease;
-        }
+            .countdown-number {
+                font-size: 2.5rem;
+            }
 
-        .fade-in-section.visible .info-card:nth-child(1) {
-            opacity: 1;
-            transform: translateY(0) rotate(0deg);
-            transition-delay: 0.2s;
-        }
+            .message-card {
+                padding: 2rem;
+            }
 
-        .fade-in-section.visible .info-card:nth-child(2) {
-            opacity: 1;
-            transform: translateY(0) rotate(0deg);
-            transition-delay: 0.4s;
+            .message-quote {
+                font-size: 2rem;
+            }
+
+            .timeline {
+                padding-left: 40px;
+            }
+
+            .timeline::before {
+                left: 10px;
+            }
+
+            .timeline-item::before {
+                left: -38px;
+                width: 12px;
+                height: 12px;
+            }
+
+            .timeline-icon {
+                display: none;
+            }
+
+            .color-swatch {
+                width: 60px;
+                height: 60px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-background"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <div class="hero-ornament">💍</div>
-            <div class="hero-names">
-                <span class="name-top">Eleodoro</span>
-                <span class="ampersand">&</span>
-                <span class="name-bottom">María Elena</span>
-            </div>
-            <div class="hero-subtitle">BODAS DE ORO</div>
-            <div class="hero-date">15 DE NOVIEMBRE, 2025</div>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-butterfly">
+            <svg viewBox="0 0 100 100">
+                <path class="wing-left" d="M50 50 C30 30, 10 40, 15 55 C20 70, 40 75, 50 50"/>
+                <path class="wing-right" d="M50 50 C70 30, 90 40, 85 55 C80 70, 60 75, 50 50"/>
+                <ellipse cx="50" cy="55" rx="3" ry="12"/>
+                <circle cx="50" cy="40" r="5"/>
+            </svg>
         </div>
-        <div class="scroll-indicator" onclick="document.querySelector('.countdown-section').scrollIntoView({behavior: 'smooth'})">↓</div>
+        <p class="loading-text">Preparando tu invitación...</p>
+    </div>
+
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Floating Butterflies -->
+    <div class="butterflies-container">
+        <div class="butterfly butterfly-1">
+            <svg viewBox="0 0 100 100">
+                <path fill="#C4A7E7" d="M50 50 C25 20, 5 35, 10 55 C15 75, 40 80, 50 50"/>
+                <path fill="#9B6DD2" d="M50 50 C75 20, 95 35, 90 55 C85 75, 60 80, 50 50"/>
+                <ellipse fill="#2D1B4E" cx="50" cy="55" rx="2" ry="10"/>
+            </svg>
+        </div>
+        <div class="butterfly butterfly-2">
+            <svg viewBox="0 0 100 100">
+                <path fill="#D4AF37" d="M50 50 C25 20, 5 35, 10 55 C15 75, 40 80, 50 50"/>
+                <path fill="#F4E4B2" d="M50 50 C75 20, 95 35, 90 55 C85 75, 60 80, 50 50"/>
+                <ellipse fill="#2D1B4E" cx="50" cy="55" rx="2" ry="10"/>
+            </svg>
+        </div>
+        <div class="butterfly butterfly-3">
+            <svg viewBox="0 0 100 100">
+                <path fill="#E8DCFA" d="M50 50 C25 20, 5 35, 10 55 C15 75, 40 80, 50 50"/>
+                <path fill="#C4A7E7" d="M50 50 C75 20, 95 35, 90 55 C85 75, 60 80, 50 50"/>
+                <ellipse fill="#2D1B4E" cx="50" cy="55" rx="2" ry="10"/>
+            </svg>
+        </div>
+        <div class="butterfly butterfly-4">
+            <svg viewBox="0 0 100 100">
+                <path fill="#6B3FA0" d="M50 50 C25 20, 5 35, 10 55 C15 75, 40 80, 50 50"/>
+                <path fill="#9B6DD2" d="M50 50 C75 20, 95 35, 90 55 C85 75, 60 80, 50 50"/>
+                <ellipse fill="#2D1B4E" cx="50" cy="55" rx="2" ry="10"/>
+            </svg>
+        </div>
+        <div class="butterfly butterfly-5">
+            <svg viewBox="0 0 100 100">
+                <path fill="#F4E4B2" d="M50 50 C25 20, 5 35, 10 55 C15 75, 40 80, 50 50"/>
+                <path fill="#D4AF37" d="M50 50 C75 20, 95 35, 90 55 C85 75, 60 80, 50 50"/>
+                <ellipse fill="#2D1B4E" cx="50" cy="55" rx="2" ry="10"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-subtitle">Mis Quince Años</p>
+            <h1 class="hero-title">XV</h1>
+            <h2 class="hero-name">Sofía</h2>
+            <div class="ornament">
+                <svg viewBox="0 0 200 40">
+                    <path d="M0 20 Q25 0, 50 20 T100 20 T150 20 T200 20" fill="none" stroke="currentColor" stroke-width="1"/>
+                    <circle cx="100" cy="20" r="5"/>
+                    <path d="M85 20 L75 10 M85 20 L75 30" fill="none" stroke="currentColor" stroke-width="1"/>
+                    <path d="M115 20 L125 10 M115 20 L125 30" fill="none" stroke="currentColor" stroke-width="1"/>
+                </svg>
+            </div>
+            <p class="hero-date">Sábado 15 de Marzo de 2025</p>
+        </div>
+        <a href="#countdown" class="scroll-indicator">
+            <span>Descubre más</span>
+            <div class="arrow"></div>
+        </a>
     </section>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Countdown -->
-        <section class="section countdown-section fade-in-section">
-            <h2 class="section-title" style="color: #D4AF37;">Celebramos en</h2>
-            <div class="divider"></div>
-            <div class="countdown-grid">
-                <div class="countdown-item">
-                    <span class="countdown-number" id="days">0</span>
-                    <span class="countdown-label">Días</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="hours">0</span>
-                    <span class="countdown-label">Horas</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="minutes">0</span>
-                    <span class="countdown-label">Minutos</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="seconds">0</span>
-                    <span class="countdown-label">Segundos</span>
-                </div>
+    <!-- Countdown Section -->
+    <section class="countdown-section" id="countdown">
+        <h2 class="section-title reveal">Faltan</h2>
+        <div class="countdown-container reveal">
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">00</span>
+                <span class="countdown-label">Días</span>
             </div>
-        </section>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">00</span>
+                <span class="countdown-label">Horas</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">00</span>
+                <span class="countdown-label">Minutos</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="seconds">00</span>
+                <span class="countdown-label">Segundos</span>
+            </div>
+        </div>
+    </section>
 
-        <!-- Story -->
-        <section class="section story-section fade-in-section">
-            <div class="story-content">
-                <div class="golden-number">50</div>
-                <h2 class="section-title">Años de Amor Eterno</h2>
-                <div class="divider"></div>
-                <p class="story-text">
-                    "Medio siglo de amor compartido, de sueños cumplidos y de una vida construida juntos. 
-                    Hoy celebramos esta hermosa historia que inspira a toda nuestra familia. 
-                    Los invitamos a compartir con nosotros este día tan especial."
+    <!-- Message Section -->
+    <section class="message-section">
+        <div class="message-card reveal">
+            <div class="butterfly-decoration top-left">
+                <svg viewBox="0 0 100 100">
+                    <path d="M50 50 C25 20, 5 35, 10 55 C15 75, 40 80, 50 50"/>
+                    <path d="M50 50 C75 20, 95 35, 90 55 C85 75, 60 80, 50 50"/>
+                </svg>
+            </div>
+            <div class="butterfly-decoration bottom-right">
+                <svg viewBox="0 0 100 100">
+                    <path d="M50 50 C25 20, 5 35, 10 55 C15 75, 40 80, 50 50"/>
+                    <path d="M50 50 C75 20, 95 35, 90 55 C85 75, 60 80, 50 50"/>
+                </svg>
+            </div>
+            <div class="message-content">
+                <span class="message-quote">"</span>
+                <p class="message-text">
+                    Con la bendición de Dios y la alegría de celebrar esta etapa tan especial en mi vida, 
+                    tengo el honor de invitarte a compartir conmigo este momento único donde las mariposas 
+                    serán testigo de mi transformación de niña a mujer.
                 </p>
-                <div class="divider-ornament">✨</div>
-            </div>
-        </section>
-
-        <!-- Padrinos -->
-        <section class="section fade-in-section">
-            <h2 class="section-title">Con la Bendición de Dios</h2>
-            <div class="divider"></div>
-            <div class="padrinos-grid">
-                <div class="padrino-card">
-                    <div class="padrino-icon">🙏</div>
-                    <div class="padrino-title">Padrinos de Velación</div>
-                    <div class="padrino-name">
-                        Crispín Cabrera Lozano<br>
-                        Aide Jimenez Vargas
-                    </div>
-                </div>
-                <div class="padrino-card">
-                    <div class="padrino-icon">👨‍👩‍👧‍👦</div>
-                    <div class="padrino-title">Nuestros Hijos</div>
-                    <div class="padrino-name">
-                        Julio César Ariana Jimenez<br>
-                        Eleodoro Ariana Jimenez
-                    </div>
+                <span class="message-quote">"</span>
+                <div class="message-parents">
+                    Con el amor de mis padres
+                    <span>María González & José Hernández</span>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Event Details -->
-        <section class="section fade-in-section" style="background: #f9f9f9;">
-            <h2 class="section-title">¿Dónde y Cuándo?</h2>
-            <div class="divider"></div>
-            <div class="event-cards">
-                <div class="event-card">
-                    <div class="event-card-header">
-                        <div class="event-icon">⛪</div>
-                        <div class="event-card-title">Ceremonia Religiosa</div>
-                        <div class="event-time">6:00 PM</div>
-                    </div>
-                    <div class="event-card-body">
-                        <p><strong>Capilla de Nuestra Señora Guadalupe</strong></p>
-                        <p>Parque el Veladero</p>
-                        <p>39820 Acapulco de Juárez, Guerrero</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Capilla+de+nuestra+señora+Guadalupe+Parque+el+Veladero+39820+Acapulco+de+Juárez+Gro" class="map-btn" target="_blank">📍 Cómo llegar</a>
-                    </div>
-                </div>
-                <div class="event-card">
-                    <div class="event-card-header">
-                        <div class="event-icon">🎉</div>
-                        <div class="event-card-title">Recepción</div>
-                        <div class="event-time">8:00 PM</div>
-                    </div>
-                    <div class="event-card-body">
-                        <p><strong>Salón de Fiestas "La Barra"</strong></p>
-                        <p>Frente Aurrera Costera</p>
-                        <p>Av. Costera Miguel Alemán 179, Hornos</p>
-                        <p>39355 Acapulco de Juárez, Guerrero</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Salón+de+fiestas+La+barra+Av+Costera+Miguel+Alemán+179+Hornos+39355+Acapulco+de+Juárez+Gro" class="map-btn" target="_blank">📍 Cómo llegar</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Timeline -->
-        <section class="section timeline-section fade-in-section">
-            <h2 class="section-title">Itinerario del Evento</h2>
-            <div class="divider"></div>
+    <!-- Itinerary Section -->
+    <section class="itinerary-section">
+        <h2 class="section-title reveal">Itinerario</h2>
+        <div class="itinerary-container">
             <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-time">6:00 PM</div>
-                        <div class="timeline-text">Ceremonia Religiosa</div>
-                    </div>
-                    <div class="timeline-dot"></div>
+                <div class="timeline-item" data-delay="0">
+                    <span class="timeline-icon">⛪</span>
+                    <span class="timeline-time">4:00 PM</span>
+                    <h3 class="timeline-title">Misa de Acción de Gracias</h3>
+                    <p class="timeline-description">Parroquia de Nuestra Señora de Guadalupe</p>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-time">7:30 PM</div>
-                        <div class="timeline-text">Recepción</div>
-                    </div>
-                    <div class="timeline-dot"></div>
+                <div class="timeline-item" data-delay="200">
+                    <span class="timeline-icon">🥂</span>
+                    <span class="timeline-time">6:00 PM</span>
+                    <h3 class="timeline-title">Recepción</h3>
+                    <p class="timeline-description">Llegada al salón y coctel de bienvenida</p>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-time">9:00 PM</div>
-                        <div class="timeline-text">Vals</div>
-                    </div>
-                    <div class="timeline-dot"></div>
+                <div class="timeline-item" data-delay="400">
+                    <span class="timeline-icon">👠</span>
+                    <span class="timeline-time">7:00 PM</span>
+                    <h3 class="timeline-title">Vals & Ceremonia</h3>
+                    <p class="timeline-description">Cambio de zapatos, última muñeca y vals</p>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-time">10:00 PM</div>
-                        <div class="timeline-text">Cena</div>
-                    </div>
-                    <div class="timeline-dot"></div>
+                <div class="timeline-item" data-delay="600">
+                    <span class="timeline-icon">🍽️</span>
+                    <span class="timeline-time">8:00 PM</span>
+                    <h3 class="timeline-title">Cena</h3>
+                    <p class="timeline-description">Banquete y brindis especial</p>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-time">12:00 AM</div>
-                        <div class="timeline-text">Batucada</div>
-                    </div>
-                    <div class="timeline-dot"></div>
+                <div class="timeline-item" data-delay="800">
+                    <span class="timeline-icon">💃</span>
+                    <span class="timeline-time">9:30 PM</span>
+                    <h3 class="timeline-title">Fiesta</h3>
+                    <p class="timeline-description">¡A bailar toda la noche!</p>
+                </div>
+                <div class="timeline-item" data-delay="1000">
+                    <span class="timeline-icon">🎂</span>
+                    <span class="timeline-time">11:00 PM</span>
+                    <h3 class="timeline-title">Pastel</h3>
+                    <p class="timeline-description">Partida del pastel y sorpresas</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Gallery CON LAS FOTOS REALES -->
-        <section class="section gallery-section fade-in-section">
-            <h2 class="section-title">Galería de Recuerdos</h2>
-            <div class="divider"></div>
-            <p class="section-subtitle" style="color: white;">50 años de amor eterno</p>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="https://chaadj-code.github.io/bodas-de-oro/foto2.png" alt="Eleodoro y María Elena - Boda Original">
-                    <div class="gallery-overlay">
-                        <p>Donde todo comenzó 💑</p>
+    <!-- Venue Section -->
+    <section class="venue-section">
+        <h2 class="section-title reveal">Ubicación</h2>
+        <div class="venue-card reveal">
+            <div class="venue-info">
+                <h3 class="venue-name">Salón Mariposas</h3>
+                <p class="venue-address">
+                    Av. de las Flores #1520<br>
+                    Col. Jardines del Valle<br>
+                    Ciudad de México, CDMX
+                </p>
+                <div class="venue-details">
+                    <div class="venue-detail">
+                        <span class="venue-detail-icon">📅</span>
+                        <span>Sábado 15 de Marzo, 2025</span>
+                    </div>
+                    <div class="venue-detail">
+                        <span class="venue-detail-icon">🕕</span>
+                        <span>6:00 PM - 2:00 AM</span>
+                    </div>
+                    <div class="venue-detail">
+                        <span class="venue-detail-icon">👗</span>
+                        <span>Vestimenta Formal</span>
                     </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="https://chaadj-code.github.io/bodas-de-oro/foto3.png" alt="Eleodoro y María Elena - El día de su boda">
-                    <div class="gallery-overlay">
-                        <p>Nuestro gran día 🤵👰</p>
-                    </div>
+                <a href="https://maps.google.com/?q=Salón+Mariposas+CDMX" target="_blank" class="map-button">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                    Ver en Google Maps
+                </a>
+            </div>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.661750915691!2d-99.16869068509399!3d19.427023186885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ff35f5bd1563%3A0x6c366f0e2de02ff7!2sZócalo!5e0!3m2!1sen!2smx!4v1635959562000!5m2!1sen!2smx" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+                <div class="map-overlay"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dress Code Section -->
+    <section class="dresscode-section">
+        <h2 class="section-title reveal">Código de Vestimenta</h2>
+        <div class="dresscode-container reveal">
+            <p class="dresscode-subtitle">Elegante Formal - Sugerimos los siguientes colores</p>
+            <div class="colors-palette">
+                <div class="color-item">
+                    <div class="color-swatch lavender"></div>
+                    <span class="color-name">Lavanda</span>
                 </div>
-                <div class="gallery-item">
-                    <img src="https://chaadj-code.github.io/bodas-de-oro/foto4.png" alt="Eleodoro y María Elena jóvenes">
-                    <div class="gallery-overlay">
-                        <p>Juntos para siempre 💍</p>
-                    </div>
+                <div class="color-item">
+                    <div class="color-swatch purple"></div>
+                    <span class="color-name">Morado</span>
                 </div>
-                <div class="gallery-item">
-                    <img src="https://chaadj-code.github.io/bodas-de-oro/foto1.png" alt="Eleodoro y María Elena - Bodas de Oro">
-                    <div class="gallery-overlay">
-                        <p>50 Años de Amor ❤️</p>
-                    </div>
+                <div class="color-item">
+                    <div class="color-swatch plum"></div>
+                    <span class="color-name">Ciruela</span>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch gold"></div>
+                    <span class="color-name">Dorado</span>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch silver"></div>
+                    <span class="color-name">Plateado</span>
                 </div>
             </div>
-            <p style="margin-top: 40px; font-size: 1.1em; font-style: italic; opacity: 0.9;">
-                "Cada foto cuenta una historia de amor que ha durado medio siglo"
+            <p class="dresscode-note">
+                ✨ Por favor evitar el color blanco, reservado para la quinceañera ✨
             </p>
-        </section>
+        </div>
+    </section>
 
-        <!-- Dress Code -->
-        <section class="section dress-code-section fade-in-section">
-            <h2 class="section-title">Código de Vestimenta</h2>
-            <div class="divider"></div>
-            <div class="dress-code-content">
-                <div class="dress-code-icon">👔</div>
-                <div class="dress-code-text">FORMAL / ETIQUETA</div>
-                <div class="dress-code-description">
-                    Les pedimos vestir de manera elegante para esta ocasión especial y al menos una prenda color verde olivo.
+    <!-- RSVP Section -->
+    <section class="rsvp-section">
+        <div class="rsvp-card reveal">
+            <div class="rsvp-icon">💌</div>
+            <h2 class="section-title">Confirma tu Asistencia</h2>
+            <p class="rsvp-text">
+                Tu presencia es el mejor regalo que puedo recibir.<br>
+                Por favor confirma tu asistencia antes de:
+            </p>
+            <p class="rsvp-date">1 de Marzo de 2025</p>
+            <div class="rsvp-contact">
+                <div class="contact-item">
+                    <span>📱</span>
+                    <a href="tel:+525512345678">+52 55 1234 5678</a>
+                </div>
+                <div class="contact-item">
+                    <span>💬</span>
+                    <a href="https://wa.me/525512345678" target="_blank">WhatsApp</a>
                 </div>
             </div>
-        </section>
-
-        <!-- Additional Info -->
-        <section class="section fade-in-section">
-            <h2 class="section-title">Información Importante</h2>
-            <div class="divider"></div>
-            <div class="info-grid">
-                <div class="info-card">
-                    <div class="info-icon">🎁</div>
-                    <div class="info-title">Mesa de Regalos</div>
-                    <div class="info-text">
-                        Su presencia es nuestro mejor regalo. Si desean obsequiarnos algo, 
-                        agradeceremos un detalle monetario.
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-ornament">💛💚💛</div>
-        <div class="footer-names">Eleodoro & María Elena</div>
-        <div class="footer-text">50 Años de Amor Eterno</div>
-        <div class="footer-text">15 de Noviembre, 2025</div>
-        <div class="footer-hashtag">
-            Con todo nuestro amor, la familia ❤️
+        <div class="footer-butterfly">
+            <svg viewBox="0 0 100 100">
+                <path d="M50 50 C25 20, 5 35, 10 55 C15 75, 40 80, 50 50"/>
+                <path d="M50 50 C75 20, 95 35, 90 55 C85 75, 60 80, 50 50"/>
+                <ellipse cx="50" cy="55" rx="2" ry="10"/>
+            </svg>
         </div>
+        <p class="footer-text">Te esperamos</p>
+        <p class="footer-names">FAMILIA HERNÁNDEZ GONZÁLEZ</p>
+        <p class="footer-hashtag">#MisXVSofía</p>
     </footer>
 
+    <!-- Music Toggle Button -->
+    <button class="music-toggle paused" id="musicToggle" title="Reproducir música">
+        <div class="bars">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </button>
+
     <script>
-        // Countdown Timer
-        const weddingDate = new Date('November 15, 2025 18:00:00').getTime();
-        
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = weddingDate - now;
-            
-            if (distance > 0) {
-                document.getElementById('days').textContent = Math.floor(distance / (1000 * 60 * 60 * 24));
-                document.getElementById('hours').textContent = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                document.getElementById('minutes').textContent = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                document.getElementById('seconds').textContent = Math.floor((distance % (1000 * 60)) / 1000);
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 2000);
+        });
+
+        // Create Particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                container.appendChild(particle);
             }
         }
-        
+        createParticles();
+
+        // Countdown Timer
+        function updateCountdown() {
+            const eventDate = new Date('March 15, 2025 18:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            }
+        }
+
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
-        // Scroll Animations
-        const observerOptions = {
-            threshold: 0.15,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Scroll Reveal Animation
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.reveal, .timeline-item');
+            
+            reveals.forEach((element, index) => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const revealPoint = 150;
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                if (elementTop < windowHeight - revealPoint) {
+                    const delay = element.dataset.delay || 0;
+                    setTimeout(() => {
+                        element.classList.add('visible');
+                    }, delay);
                 }
             });
-        }, observerOptions);
+        }
 
-        document.querySelectorAll('.fade-in-section').forEach(section => {
-            observer.observe(section);
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+
+        // Music Toggle (placeholder - would need actual audio file)
+        const musicToggle = document.getElementById('musicToggle');
+        let isPlaying = false;
+
+        musicToggle.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            musicToggle.classList.toggle('paused', !isPlaying);
+            musicToggle.title = isPlaying ? 'Pausar música' : 'Reproducir música';
+            // Here you would add actual audio control
+            // const audio = document.getElementById('backgroundMusic');
+            // isPlaying ? audio.play() : audio.pause();
         });
 
-        // Smooth scroll
+        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
             });
         });
+
+        // Parallax effect for butterflies
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const butterflies = document.querySelectorAll('.butterfly');
+                    
+                    butterflies.forEach((butterfly, index) => {
+                        const speed = 0.1 + (index * 0.05);
+                        butterfly.style.transform = `translateY(${scrolled * speed}px)`;
+                    });
+                    
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Interactive cursor trail (optional enhancement)
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.95) { // Occasional sparkle
+                const sparkle = document.createElement('div');
+                sparkle.style.cssText = `
+                    position: fixed;
+                    left: ${e.clientX}px;
+                    top: ${e.clientY}px;
+                    width: 6px;
+                    height: 6px;
+                    background: var(--gold-accent);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 9999;
+                    animation: sparkleAnim 1s ease forwards;
+                `;
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 1000);
+            }
+        });
+
+        // Add sparkle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes sparkleAnim {
+                0% { transform: scale(1); opacity: 1; }
+                100% { transform: scale(0); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
