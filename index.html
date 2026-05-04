@@ -22,7 +22,7 @@
     html{scroll-behavior:smooth}
     body{
       font-family:'Cormorant Garamond',serif;background:var(--parchment);
-      color:var(--text-dark);overflow-x:hidden;cursor:none;
+      color:var(--text-dark);overflow-x:hidden;overscroll-behavior:none;cursor:none;
       background-image:
         radial-gradient(ellipse at 18% 28%,rgba(126,64,207,.22) 0%,transparent 50%),
         radial-gradient(ellipse at 82% 72%,rgba(201,162,39,.09) 0%,transparent 50%),
@@ -76,8 +76,8 @@
     @keyframes sparkle{0%,100%{opacity:.3;transform:scale(.8) rotate(0deg)}50%{opacity:1;transform:scale(1.2) rotate(180deg)}}
 
     /* ══ HERO ══ */
-    #heroWrapper{position:relative;width:100%;height:100vh;overflow:hidden;background:#261540}
-    .hero-photo-bg{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;will-change:transform;transform-origin:center top}
+    #heroWrapper{position:relative;width:100%;height:100vh;overflow:hidden;background:#261540;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+    .hero-photo-bg{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;-webkit-backface-visibility:hidden;backface-visibility:hidden}
     .hero-photo-bg img{width:100%;height:100%;object-fit:cover;object-position:center 12%;display:block}
     .hero-soft-overlay{
       position:absolute;top:0;left:0;width:100%;height:100%;
@@ -190,24 +190,9 @@
     .venue-button{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 1.8rem;background:linear-gradient(135deg,var(--rose-gold) 0%,var(--rose-gold-dark) 100%);color:var(--white);font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.15em;text-decoration:none;border-radius:50px;box-shadow:0 8px 25px rgba(94,34,168,.45);transition:all .3s ease;text-transform:uppercase}
     .venue-button:hover{transform:translateY(-3px);box-shadow:0 14px 35px rgba(94,34,168,.55)}
     .venue-button svg{width:18px;height:18px;fill:currentColor}
-    .venue-map{border-radius:20px;overflow:hidden;box-shadow:0 15px 45px rgba(0,0,0,.35);aspect-ratio:4/3;border:3px solid var(--gold-main)}
-    .venue-map iframe{width:100%;height:100%;border:none}
+    .venue-type{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.22em;color:var(--rose-gold);text-transform:uppercase;margin-bottom:.5rem}
+    .venue-time-tag{font-family:'Cinzel',serif;font-size:.9rem;font-weight:600;color:var(--gold-main);margin:.8rem 0 1rem}
 
-    /* ── Dresscode ── */
-    .dresscode-section{padding:5rem 2rem}
-    .dresscode-content{max-width:750px;margin:0 auto;text-align:center}
-    .dresscode-subtitle{font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;color:var(--text-medium);margin-bottom:2rem}
-    .colors-palette{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem}
-    .color-item{display:flex;flex-direction:column;align-items:center;gap:.6rem}
-    .color-swatch{width:65px;height:65px;border-radius:50%;border:3px solid var(--gold-main);box-shadow:0 6px 20px rgba(0,0,0,.3);transition:all .4s ease;cursor:pointer}
-    .color-swatch:hover{transform:scale(1.2) rotate(15deg)}
-    .color-swatch.rose-gold{background:linear-gradient(145deg,#D4A5A5,#B76E79)}
-    .color-swatch.gold{background:linear-gradient(145deg,#E8D078,#C9A227)}
-    .color-swatch.blush{background:linear-gradient(145deg,#F5E1DA,#E8C4B8)}
-    .color-swatch.champagne{background:linear-gradient(145deg,#F5E6C8,#E8D4B0)}
-    .color-swatch.ivory{background:linear-gradient(145deg,#FFFFF0,#F5F5DC)}
-    .color-name{font-family:'Italiana',serif;font-size:.7rem;letter-spacing:.1em;color:var(--text-gold);text-transform:uppercase}
-    .dresscode-note{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;color:var(--rose-gold);background:linear-gradient(135deg,rgba(255,255,255,.85),rgba(245,230,200,.85));padding:1rem 2rem;border-radius:50px;display:inline-block;border:1px solid var(--gold-main)}
 
     /* ── RSVP ── */
     .rsvp-section{padding:5rem 2rem;background:linear-gradient(180deg,var(--parchment) 0%,var(--rose-gold-light) 50%,var(--parchment) 100%)}
@@ -391,7 +376,7 @@
     <div class="card-corner bottom-left"><svg viewBox="0 0 20 20"><path d="M0 0 L20 0 L20 3 C12 3 6 8 3 15 L0 15 Z"/></svg></div>
     <div class="card-corner bottom-right"><svg viewBox="0 0 20 20"><path d="M0 0 L20 0 L20 3 C12 3 6 8 3 15 L0 15 Z"/></svg></div>
     <p class="message-text">Con la bendición de Dios y la alegría de celebrar esta etapa tan especial en mi vida, tengo el honor de invitarte a compartir conmigo este momento único donde los sueños se hacen realidad y comienza un nuevo capítulo lleno de luz, magia y esperanza.</p>
-    <div class="message-signature"><p>Con el amor de mis padres</p><span class="parents">Julio César Ariana Jiménez & Alma Rosa Torres Salazar</span></div>
+    <div class="message-signature"><p><strong>Con el amor de mis padres</strong></p><span class="parents">Julio César Ariana Jiménez<br>&<br>Alma Rosa Torres Salazar</span></div>
   </div>
 </section>
 
@@ -405,10 +390,10 @@
     <p class="section-subtitle">Quienes me acompañarán</p>
   </div>
   <div class="padrinos-grid">
-    <div class="padrino-card magic-card reveal-left" style="transition-delay:.1s"><div class="padrino-icon"><svg viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-1h14v1z"/></svg></div><h3 class="padrino-role">Padrinos de Honor</h3><p class="padrino-names">Juan Pérez & Ana López</p></div>
-    <div class="padrino-card magic-card reveal-right" style="transition-delay:.2s"><div class="padrino-icon"><svg viewBox="0 0 24 24"><path d="M12 2C9.24 2 7 4.24 7 7c0 2.76 2.24 5 5 5s5-2.24 5-5c0-2.76-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm0 2l-3 8h6l-3-8z"/></svg></div><h3 class="padrino-role">Padrinos de Anillo</h3><p class="padrino-names">Carlos Ruiz & Laura Sánchez</p></div>
-    <div class="padrino-card magic-card reveal-left" style="transition-delay:.3s"><div class="padrino-icon"><svg viewBox="0 0 24 24"><path d="M12 6c1.11 0 2-.9 2-2 0-.38-.1-.73-.29-1.03L12 0l-1.71 2.97c-.19.3-.29.65-.29 1.03 0 1.1.9 2 2 2zm6 3H6c-1.66 0-3 1.34-3 3v1.54c0 1.08.88 1.96 1.96 1.96.52 0 1.02-.2 1.38-.57l2.14-2.13 2.13 2.13c.74.74 2.03.74 2.77 0l2.14-2.13 2.13 2.13c.37.37.86.57 1.38.57 1.08 0 1.96-.88 1.96-1.96V12c0-1.66-1.34-3-3-3zm2 12H4v-2h16v2z"/></svg></div><h3 class="padrino-role">Padrinos de Pastel</h3><p class="padrino-names">Roberto García & Elena Morales</p></div>
-    <div class="padrino-card magic-card reveal-right" style="transition-delay:.4s"><div class="padrino-icon"><svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></div><h3 class="padrino-role">Padrinos de Vals</h3><p class="padrino-names">Fernando Reyes & Patricia Luna</p></div>
+    <div class="padrino-card magic-card reveal-left" style="transition-delay:.1s"><div class="padrino-icon"><svg viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-1h14v1z"/></svg></div><h3 class="padrino-role">Padrinos de Honor</h3><p class="padrino-names">Juan Pérez<br>&<br>Ana López</p></div>
+    <div class="padrino-card magic-card reveal-right" style="transition-delay:.2s"><div class="padrino-icon"><svg viewBox="0 0 24 24"><path d="M12 2C9.24 2 7 4.24 7 7c0 2.76 2.24 5 5 5s5-2.24 5-5c0-2.76-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm0 2l-3 8h6l-3-8z"/></svg></div><h3 class="padrino-role">Padrinos de Anillo</h3><p class="padrino-names">Carlos Ruiz<br>&<br>Laura Sánchez</p></div>
+    <div class="padrino-card magic-card reveal-left" style="transition-delay:.3s"><div class="padrino-icon"><svg viewBox="0 0 24 24"><path d="M12 6c1.11 0 2-.9 2-2 0-.38-.1-.73-.29-1.03L12 0l-1.71 2.97c-.19.3-.29.65-.29 1.03 0 1.1.9 2 2 2zm6 3H6c-1.66 0-3 1.34-3 3v1.54c0 1.08.88 1.96 1.96 1.96.52 0 1.02-.2 1.38-.57l2.14-2.13 2.13 2.13c.74.74 2.03.74 2.77 0l2.14-2.13 2.13 2.13c.37.37.86.57 1.38.57 1.08 0 1.96-.88 1.96-1.96V12c0-1.66-1.34-3-3-3zm2 12H4v-2h16v2z"/></svg></div><h3 class="padrino-role">Padrinos de Pastel</h3><p class="padrino-names">Roberto García<br>&<br>Elena Morales</p></div>
+    <div class="padrino-card magic-card reveal-right" style="transition-delay:.4s"><div class="padrino-icon"><svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></div><h3 class="padrino-role">Padrinos de Vals</h3><p class="padrino-names">Fernando Reyes<br>&<br>Patricia Luna</p></div>
   </div>
 </section>
 
@@ -422,11 +407,9 @@
     <p class="section-subtitle">Programa del día mágico</p>
   </div>
   <div class="timeline">
-    <div class="timeline-item reveal-left" style="transition-delay:.1s"><div class="timeline-marker magic-card"><svg viewBox="0 0 24 24"><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7z"/></svg></div><div class="timeline-content"><span class="timeline-time">4:00 PM</span><h3 class="timeline-title">Misa de Acción de Gracias</h3><p class="timeline-description">Parroquia de Nuestra Señora</p></div></div>
-    <div class="timeline-item reveal-right" style="transition-delay:.2s"><div class="timeline-marker magic-card"><svg viewBox="0 0 24 24"><path d="M18.36 9l.6 3H5.04l.6-3h12.72M20 4H4v2h16V4z"/></svg></div><div class="timeline-content"><span class="timeline-time">6:00 PM</span><h3 class="timeline-title">Recepción</h3><p class="timeline-description">Llegada y coctel de bienvenida</p></div></div>
-    <div class="timeline-item reveal-left" style="transition-delay:.3s"><div class="timeline-marker magic-card"><svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></div><div class="timeline-content"><span class="timeline-time">7:00 PM</span><h3 class="timeline-title">Vals y Ceremonia</h3><p class="timeline-description">Cambio de zapatos y vals</p></div></div>
-    <div class="timeline-item reveal-right" style="transition-delay:.4s"><div class="timeline-marker magic-card"><svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7z"/></svg></div><div class="timeline-content"><span class="timeline-time">8:00 PM</span><h3 class="timeline-title">Cena</h3><p class="timeline-description">Banquete y brindis especial</p></div></div>
-    <div class="timeline-item reveal-left" style="transition-delay:.5s"><div class="timeline-marker magic-card"><svg viewBox="0 0 24 24"><path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2Z"/></svg></div><div class="timeline-content"><span class="timeline-time">9:30 PM</span><h3 class="timeline-title">¡Fiesta!</h3><p class="timeline-description">A bailar toda la noche</p></div></div>
+    <div class="timeline-item reveal-left" style="transition-delay:.1s"><div class="timeline-marker magic-card"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div><div class="timeline-content"><span class="timeline-time">6:00 PM</span><h3 class="timeline-title">Ceremonia Religiosa</h3><p class="timeline-description">Iglesia San Francisco de Asís</p></div></div>
+    <div class="timeline-item reveal-right" style="transition-delay:.2s"><div class="timeline-marker magic-card"><svg viewBox="0 0 24 24"><path d="M11.5 2C6.81 2 3 5.81 3 10.5S6.81 19 11.5 19h.5v3c4.86-2.34 8-7 8-11.5C20 5.81 16.19 2 11.5 2zm1 14.5h-2v-2h2v2zm0-4h-2c0-3.25 3-3 3-5 0-1.1-.9-2-2-2s-2 .9-2 2h-2c0-2.21 1.79-4 4-4s4 1.79 4 4c0 2.5-3 2.75-3 5z"/></svg></div><div class="timeline-content"><span class="timeline-time">7:30 PM</span><h3 class="timeline-title">Recepción</h3><p class="timeline-description">Salones de Fiesta "Brisamar"</p></div></div>
+    <div class="timeline-item reveal-left" style="transition-delay:.3s"><div class="timeline-marker magic-card"><svg viewBox="0 0 24 24"><path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2Z"/></svg></div><div class="timeline-content"><span class="timeline-time">9:00 PM</span><h3 class="timeline-title">¡Fiesta!</h3><p class="timeline-description">A bailar y celebrar toda la noche</p></div></div>
   </div>
 </section>
 
@@ -441,36 +424,21 @@
   </div>
   <div class="venue-container">
     <div class="venue-card magic-card reveal-left">
-      <h3 class="venue-name">Salón Imperial</h3>
-      <p class="venue-address">Av. Principal #1234<br>Colonia Centro<br>Ciudad, Estado C.P. 12345</p>
-      <a href="https://maps.google.com" target="_blank" class="venue-button"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Ver en Maps</a>
+      <p class="venue-type">Ceremonia Religiosa</p>
+      <h3 class="venue-name">Iglesia San Francisco de Asís</h3>
+      <p class="venue-address">Calle 10 s/n, Icacos<br>Acapulco de Juárez, Gro.</p>
+      <p class="venue-time-tag">6:00 PM</p>
+      <a href="https://maps.app.goo.gl/X9LrT9SWqie3BNm26" target="_blank" class="venue-button"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Ver en Maps</a>
     </div>
-    <div class="venue-map reveal-right"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.66!2d-99.168!3d19.427!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDI1JzM3LjMiTiA5OcKwMTAnMDYuOSJX!5e0!3m2!1sen!2smx!4v1635959562000" allowfullscreen="" loading="lazy"></iframe></div>
+    <div class="venue-card magic-card reveal-right">
+      <p class="venue-type">Recepción</p>
+      <h3 class="venue-name">Salones de Fiesta "Brisamar"</h3>
+      <p class="venue-address">Nerón 35, Marroquín<br>39640 Acapulco de Juárez, Gro.</p>
+      <p class="venue-time-tag">7:30 PM</p>
+      <a href="https://maps.app.goo.gl/V9NSXi742zuPDYYi6" target="_blank" class="venue-button"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Ver en Maps</a>
+    </div>
   </div>
 </section>
-
-<div class="section-divider"><svg viewBox="0 0 200 40"><path d="M0 20 Q50 0 100 20 Q150 40 200 20" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="100" cy="20" r="5"/></svg></div>
-
-<!-- ══ DRESSCODE ══ -->
-<section class="dresscode-section">
-  <div class="section-header reveal">
-    <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M6 2l-2 5h4l-2 3h4l4 12 4-12h4l-2-3h4L22 2H6zm6 14.5L9.5 9h5L12 16.5zM8.6 7l1-3h4.8l1 3H8.6z"/></svg></div>
-    <h2 class="section-title">Código de Vestimenta</h2>
-  </div>
-  <div class="dresscode-content reveal">
-    <p class="dresscode-subtitle">Elegante Formal — Sugerimos los siguientes colores</p>
-    <div class="colors-palette">
-      <div class="color-item reveal-scale" style="transition-delay:.1s"><div class="color-swatch rose-gold"></div><span class="color-name">Rose Gold</span></div>
-      <div class="color-item reveal-scale" style="transition-delay:.2s"><div class="color-swatch gold"></div><span class="color-name">Dorado</span></div>
-      <div class="color-item reveal-scale" style="transition-delay:.3s"><div class="color-swatch blush"></div><span class="color-name">Blush</span></div>
-      <div class="color-item reveal-scale" style="transition-delay:.4s"><div class="color-swatch champagne"></div><span class="color-name">Champagne</span></div>
-      <div class="color-item reveal-scale" style="transition-delay:.5s"><div class="color-swatch ivory"></div><span class="color-name">Ivory</span></div>
-    </div>
-    <p class="dresscode-note">Por favor evitar el color blanco, reservado para la quinceañera</p>
-  </div>
-</section>
-
-<div class="section-divider"><svg viewBox="0 0 200 40"><path d="M0 20 Q50 0 100 20 Q150 40 200 20" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="100" cy="20" r="5"/></svg></div>
 
 <!-- ══ RSVP ══ -->
 <section class="rsvp-section">
@@ -481,15 +449,11 @@
   <div class="rsvp-card magic-card reveal-scale">
     <div class="rsvp-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
     <p class="rsvp-text">Tu presencia hará este día aún más mágico.<br>Por favor confirma antes de:</p>
-    <p class="rsvp-deadline">1 de Marzo de 2025</p>
+    <p class="rsvp-deadline">20 de Mayo de 2026</p>
     <div class="rsvp-buttons">
-      <a href="https://wa.me/525512345678" target="_blank" class="rsvp-btn primary">
+      <a href="https://wa.me/527441664817" target="_blank" class="rsvp-btn primary">
         <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
         Confirmar por WhatsApp
-      </a>
-      <a href="tel:+525512345678" class="rsvp-btn secondary">
-        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-        Llamar
       </a>
     </div>
   </div>
@@ -517,13 +481,15 @@
     </svg>
   </div>
   <p class="footer-text">Te esperamos</p>
-  <p class="footer-family">Familia Hernández González</p>
+  <p class="footer-family">Familia Ariana Torres</p>
   <p class="footer-hashtag">#MisXVEsmeralda</p>
 </footer>
 
 <script>
   gsap.registerPlugin(ScrollTrigger);
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isAndroid = /Android/i.test(navigator.userAgent);
+  gsap.ticker.lagSmoothing(0);
 
   // ── CURSOR ──
   var cursor=document.getElementById('customCursor');
@@ -534,26 +500,30 @@
     (function at(){for(var i=0;i<trails.length;i++){var tx=i===0?mx:tp[i-1].x,ty=i===0?my:tp[i-1].y;tp[i].x+=(tx-tp[i].x)*(0.25-i*0.05);tp[i].y+=(ty-tp[i].y)*(0.25-i*0.05);trails[i].style.left=tp[i].x+'px';trails[i].style.top=tp[i].y+'px';trails[i].style.opacity=0.7-i*0.2}requestAnimationFrame(at)})();
   }
 
-  // ── FLOATING ELEMENTS ──
+  // ── FLOATING ELEMENTS — desactivado en Android (42 animaciones CSS = presión GPU) ──
   var fe=document.getElementById('floatingElements');
-  for(var i=0;i<12;i++){var st=document.createElement('div');st.className='sparkle-star';var sz=10+Math.random()*18;st.innerHTML='<svg viewBox="0 0 24 24" width="'+sz+'" height="'+sz+'"><path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2Z"/></svg>';st.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation-delay:'+Math.random()*3+'s;animation-duration:'+(2+Math.random()*2)+'s';fe.appendChild(st)}
-  var dc=['gold','rose','white'];
-  for(var i=0;i<30;i++){var d=document.createElement('div');d.className='magic-dust '+dc[Math.floor(Math.random()*3)];var ds=3+Math.random()*8;d.style.cssText='width:'+ds+'px;height:'+ds+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation:floatDust '+(4+Math.random()*4)+'s ease-in-out infinite;animation-delay:'+Math.random()*4+'s';fe.appendChild(d)}
+  if(!isAndroid){
+    for(var i=0;i<12;i++){var st=document.createElement('div');st.className='sparkle-star';var sz=10+Math.random()*18;st.innerHTML='<svg viewBox="0 0 24 24" width="'+sz+'" height="'+sz+'"><path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2Z"/></svg>';st.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation-delay:'+Math.random()*3+'s;animation-duration:'+(2+Math.random()*2)+'s';fe.appendChild(st)}
+    var dc=['gold','rose','white'];
+    for(var i=0;i<30;i++){var d=document.createElement('div');d.className='magic-dust '+dc[Math.floor(Math.random()*3)];var ds=3+Math.random()*8;d.style.cssText='width:'+ds+'px;height:'+ds+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation:floatDust '+(4+Math.random()*4)+'s ease-in-out infinite;animation-delay:'+Math.random()*4+'s';fe.appendChild(d)}
+  }
 
-  // ── TOUCH BURST ──
+  // ── TOUCH BURST — desactivado en Android (tweens GSAP acumulados compiten con el scroll) ──
+  if(!isAndroid){
   document.addEventListener('touchmove',function(e){cB(e.touches[0].clientX,e.touches[0].clientY,1)});
   document.addEventListener('touchstart',function(e){var t=e.touches[0];for(var i=0;i<6;i++)(function(n){setTimeout(function(){cB(t.clientX,t.clientY,0)},n*40)})(i)});
+  }
   function cB(x,y,type){var b=document.createElement('div');b.className='touch-burst';var sz=type?14:10+Math.random()*10;b.innerHTML='<svg viewBox="0 0 24 24" width="'+sz+'" height="'+sz+'"><path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2Z"/></svg>';b.style.left=x+'px';b.style.top=y+'px';document.body.appendChild(b);if(type){gsap.to(b,{opacity:0,scale:.3,y:-20,duration:.6,onComplete:function(){b.remove()}})}else{var ang=Math.random()*Math.PI*2,dist=40+Math.random()*60;gsap.to(b,{x:Math.cos(ang)*dist,y:Math.sin(ang)*dist,opacity:0,scale:.2,rotation:360,duration:.8,ease:'power2.out',onComplete:function(){b.remove()}})}}
 
   // ── LLUVIA DE ESTRELLAS ──
   var SC=document.getElementById('starCanvas'),CTX=SC.getContext('2d'),starRainOpacity=1;
   function rSC(){SC.width=window.innerWidth;SC.height=window.innerHeight}
   rSC();window.addEventListener('resize',rSC,{passive:true});
-  var STARS=[],NUM=window.innerWidth<768?45:70;
+  var STARS=[],NUM=isAndroid?0:(window.innerWidth<768?45:70);
   for(var i=0;i<NUM;i++)STARS.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vy:0.35+Math.random()*1.6,vx:(Math.random()-.5)*.4,sz:0.7+Math.random()*2.4,op:0.3+Math.random()*.7,ph:Math.random()*Math.PI*2,rot:Math.random()*360});
   function dS(x,y,sz,op,rot){CTX.save();CTX.translate(x,y);CTX.rotate(rot*Math.PI/180);CTX.globalAlpha=op;var g=CTX.createRadialGradient(0,0,0,0,0,sz*5);g.addColorStop(0,'rgba(255,248,180,1)');g.addColorStop(.3,'rgba(201,162,39,.75)');g.addColorStop(.7,'rgba(196,154,232,.2)');g.addColorStop(1,'rgba(196,154,232,0)');CTX.fillStyle=g;CTX.beginPath();CTX.arc(0,0,sz*5,0,Math.PI*2);CTX.fill();CTX.fillStyle='rgba(255,252,210,'+op+')';CTX.beginPath();CTX.arc(0,0,sz*.7,0,Math.PI*2);CTX.fill();CTX.strokeStyle='rgba(255,248,160,'+(op*.75)+')';CTX.lineWidth=sz*.55;CTX.lineCap='round';CTX.beginPath();CTX.moveTo(-sz*5.5,0);CTX.lineTo(sz*5.5,0);CTX.moveTo(0,-sz*5.5);CTX.lineTo(0,sz*5.5);CTX.stroke();CTX.strokeStyle='rgba(255,240,140,'+(op*.35)+')';CTX.lineWidth=sz*.35;CTX.beginPath();CTX.moveTo(-sz*3.5,-sz*3.5);CTX.lineTo(sz*3.5,sz*3.5);CTX.moveTo(sz*3.5,-sz*3.5);CTX.lineTo(-sz*3.5,sz*3.5);CTX.stroke();CTX.restore()}
   function aS(){CTX.clearRect(0,0,SC.width,SC.height);if(starRainOpacity>0.01){STARS.forEach(function(s){s.y+=s.vy;s.x+=s.vx;s.ph+=0.022;s.rot+=0.12;if(s.y>SC.height+20){s.y=-15;s.x=Math.random()*SC.width}if(s.x<-10)s.x=SC.width+10;if(s.x>SC.width+10)s.x=-10;var tw=0.45+0.55*Math.abs(Math.sin(s.ph)),fo=s.op*tw*starRainOpacity;if(fo>0.02)dS(s.x,s.y,s.sz,fo,s.rot)})}requestAnimationFrame(aS)}
-  aS();
+  if(!isAndroid){aS();}
 
   // ── LOADING ──
   window.addEventListener('load',function(){
@@ -566,10 +536,9 @@
         document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(function(el){
           gsap.set(el,{opacity:1,clearProps:'transform'});
         });
-        gsap.set('.dresscode-content,.dresscode-subtitle,.dresscode-note,.footer-sun,.footer-text,.footer-family,.footer-hashtag',{opacity:1});
+        gsap.set('.footer-sun,.footer-text,.footer-family,.footer-hashtag',{opacity:1});
       } else {
-        gsap.set('.dresscode-content',{opacity:1});
-        gsap.set('.dresscode-subtitle,.dresscode-note,.footer-sun,.footer-text,.footer-family,.footer-hashtag',{opacity:0});
+        gsap.set('.footer-sun,.footer-text,.footer-family,.footer-hashtag',{opacity:0});
         var secT=function(sel,tl){
           ScrollTrigger.create({trigger:sel,start:'top 78%',
             onEnter:function(){tl.play();},onLeaveBack:function(){tl.reverse();}});
@@ -601,16 +570,8 @@
         // — Venue: card rotada, mapa asciende
         var vnTL=gsap.timeline({paused:true,defaults:{overwrite:'auto'}});
         vnTL.fromTo('.venue-section .section-header',{y:45,opacity:0},{y:0,opacity:1,duration:.85,ease:'power2.out'});
-        vnTL.fromTo('.venue-card',{x:-80,rotation:-4,opacity:0},{x:0,rotation:0,opacity:1,duration:1.0,ease:'power2.out'},.3);
-        vnTL.fromTo('.venue-map',{y:80,scale:.94,opacity:0},{y:0,scale:1,opacity:1,duration:1.05,ease:'power2.out'},.52);
+        vnTL.fromTo('.venue-card',{y:55,opacity:0},{y:0,opacity:1,stagger:.25,duration:1.0,ease:'power2.out'},.3);
         secT('.venue-section',vnTL);
-        // — Dresscode: swatches explotan desde el centro
-        var dcTL=gsap.timeline({paused:true,defaults:{overwrite:'auto'}});
-        dcTL.fromTo('.dresscode-section .section-header',{y:45,opacity:0},{y:0,opacity:1,duration:.85,ease:'power2.out'});
-        dcTL.fromTo('.dresscode-subtitle',{y:20,opacity:0},{y:0,opacity:1,duration:.7,ease:'power2.out'},.28);
-        dcTL.fromTo('.color-item',{scale:0,y:35,opacity:0},{scale:1,y:0,opacity:1,stagger:.14,duration:.9,ease:'back.out(1.8)'},.55);
-        dcTL.fromTo('.dresscode-note',{scaleX:0,opacity:0,transformOrigin:'center center'},{scaleX:1,opacity:1,duration:.75,ease:'power2.inOut'},1.2);
-        secT('.dresscode-section',dcTL);
         // — RSVP: rebota elásticamente
         var rsvpTL=gsap.timeline({paused:true,defaults:{overwrite:'auto'}});
         rsvpTL.fromTo('.rsvp-section .section-header',{y:45,opacity:0},{y:0,opacity:1,duration:.85,ease:'power2.out'});
@@ -667,12 +628,19 @@
     gsap.set(ov,{opacity:0});
     gsap.set(bg,{y:'0%',scale:1,transformOrigin:'center top'});
     gsap.set(ind,{opacity:1});
-    var tl=gsap.timeline({scrollTrigger:{trigger:wrap,start:'top top',end:'+=300%',scrub:1.5,pin:true,anticipatePin:1,invalidateOnRefresh:true,onUpdate:function(self){starRainOpacity=Math.max(0,1-self.progress*2.6)}}});
-    tl.to(ind,{opacity:0,duration:0.08},0);
-    tl.to(ov,{opacity:1,duration:.45,ease:'power1.inOut'},0);
-    tl.to([pre,num,anos,nom],{opacity:1,duration:.28,ease:'power1.out',stagger:.015},.22);
-    tl.to(txt,{scale:1,duration:.5,ease:'power2.out'},.20);
-    tl.to(dt,{opacity:1,y:0,duration:.22,ease:'power2.out'},.65);
+    var tl=gsap.timeline({scrollTrigger:{
+      trigger:wrap,start:'top top',end:'+=300%',
+      scrub:true,
+      pin:true,
+      anticipatePin:isAndroid?0:1,
+      invalidateOnRefresh:true,
+      onUpdate:function(self){starRainOpacity=Math.max(0,1-self.progress*2.6)}
+    }});
+    tl.to(ind,{opacity:0,duration:.08,ease:'none'},0);
+    tl.to(ov,{opacity:1,duration:.45,ease:'none'},0);
+    tl.to([pre,num,anos,nom],{opacity:1,duration:.28,ease:'none',stagger:.015},.22);
+    tl.to(txt,{scale:1,duration:.5,ease:'none'},.20);
+    tl.to(dt,{opacity:1,y:0,duration:.22,ease:'none'},.65);
   }
 
   // ── COUNTDOWN ──
