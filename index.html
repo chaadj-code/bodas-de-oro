@@ -500,18 +500,19 @@
     (function at(){for(var i=0;i<trails.length;i++){var tx=i===0?mx:tp[i-1].x,ty=i===0?my:tp[i-1].y;tp[i].x+=(tx-tp[i].x)*(0.25-i*0.05);tp[i].y+=(ty-tp[i].y)*(0.25-i*0.05);trails[i].style.left=tp[i].x+'px';trails[i].style.top=tp[i].y+'px';trails[i].style.opacity=0.7-i*0.2}requestAnimationFrame(at)})();
   }
 
-  // ── FLOATING ELEMENTS — desactivado en Android (42 animaciones CSS = presión GPU) ──
+  // ── FLOATING ELEMENTS — reducido en Android (4 estrellas + 6 polvos vs 12+30) ──
   var fe=document.getElementById('floatingElements');
-  if(!isAndroid){
-    for(var i=0;i<12;i++){var st=document.createElement('div');st.className='sparkle-star';var sz=10+Math.random()*18;st.innerHTML='<svg viewBox="0 0 24 24" width="'+sz+'" height="'+sz+'"><path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2Z"/></svg>';st.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation-delay:'+Math.random()*3+'s;animation-duration:'+(2+Math.random()*2)+'s';fe.appendChild(st)}
-    var dc=['gold','rose','white'];
-    for(var i=0;i<30;i++){var d=document.createElement('div');d.className='magic-dust '+dc[Math.floor(Math.random()*3)];var ds=3+Math.random()*8;d.style.cssText='width:'+ds+'px;height:'+ds+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation:floatDust '+(4+Math.random()*4)+'s ease-in-out infinite;animation-delay:'+Math.random()*4+'s';fe.appendChild(d)}
-  }
+  var nSparkle=isAndroid?4:12,nDust=isAndroid?6:30;
+  for(var i=0;i<nSparkle;i++){var st=document.createElement('div');st.className='sparkle-star';var sz=10+Math.random()*18;st.innerHTML='<svg viewBox="0 0 24 24" width="'+sz+'" height="'+sz+'"><path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2Z"/></svg>';st.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation-delay:'+Math.random()*3+'s;animation-duration:'+(isAndroid?6:2+Math.random()*2)+'s';fe.appendChild(st)}
+  var dc=['gold','rose','white'];
+  for(var i=0;i<nDust;i++){var d=document.createElement('div');d.className='magic-dust '+dc[Math.floor(Math.random()*3)];var ds=3+Math.random()*8;d.style.cssText='width:'+ds+'px;height:'+ds+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation:floatDust '+(isAndroid?10:4+Math.random()*4)+'s ease-in-out infinite;animation-delay:'+Math.random()*4+'s';fe.appendChild(d)}
 
-  // ── TOUCH BURST — desactivado en Android (tweens GSAP acumulados compiten con el scroll) ──
-  if(!isAndroid){
-  document.addEventListener('touchmove',function(e){cB(e.touches[0].clientX,e.touches[0].clientY,1)});
-  document.addEventListener('touchstart',function(e){var t=e.touches[0];for(var i=0;i<6;i++)(function(n){setTimeout(function(){cB(t.clientX,t.clientY,0)},n*40)})(i)});
+  // ── TOUCH BURST — simplificado en Android (1 elemento sin touchmove) ──
+  if(isAndroid){
+    document.addEventListener('touchstart',function(e){var t=e.touches[0];cB(t.clientX,t.clientY,0)},{passive:true});
+  } else {
+    document.addEventListener('touchmove',function(e){cB(e.touches[0].clientX,e.touches[0].clientY,1)});
+    document.addEventListener('touchstart',function(e){var t=e.touches[0];for(var i=0;i<6;i++)(function(n){setTimeout(function(){cB(t.clientX,t.clientY,0)},n*40)})(i)});
   }
   function cB(x,y,type){var b=document.createElement('div');b.className='touch-burst';var sz=type?14:10+Math.random()*10;b.innerHTML='<svg viewBox="0 0 24 24" width="'+sz+'" height="'+sz+'"><path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2Z"/></svg>';b.style.left=x+'px';b.style.top=y+'px';document.body.appendChild(b);if(type){gsap.to(b,{opacity:0,scale:.3,y:-20,duration:.6,onComplete:function(){b.remove()}})}else{var ang=Math.random()*Math.PI*2,dist=40+Math.random()*60;gsap.to(b,{x:Math.cos(ang)*dist,y:Math.sin(ang)*dist,opacity:0,scale:.2,rotation:360,duration:.8,ease:'power2.out',onComplete:function(){b.remove()}})}}
 
@@ -519,11 +520,12 @@
   var SC=document.getElementById('starCanvas'),CTX=SC.getContext('2d'),starRainOpacity=1;
   function rSC(){SC.width=window.innerWidth;SC.height=window.innerHeight}
   rSC();window.addEventListener('resize',rSC,{passive:true});
-  var STARS=[],NUM=isAndroid?0:(window.innerWidth<768?45:70);
-  for(var i=0;i<NUM;i++)STARS.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vy:0.35+Math.random()*1.6,vx:(Math.random()-.5)*.4,sz:0.7+Math.random()*2.4,op:0.3+Math.random()*.7,ph:Math.random()*Math.PI*2,rot:Math.random()*360});
+  var STARS=[],NUM=isAndroid?7:(window.innerWidth<768?45:70);
+  var aSM=isAndroid?0.5:1;
+  for(var i=0;i<NUM;i++)STARS.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vy:(0.35+Math.random()*(isAndroid?0.8:1.6))*aSM,vx:(Math.random()-.5)*.4*aSM,sz:0.7+Math.random()*(isAndroid?1.2:2.4),op:0.3+Math.random()*.7,ph:Math.random()*Math.PI*2,rot:Math.random()*360});
   function dS(x,y,sz,op,rot){CTX.save();CTX.translate(x,y);CTX.rotate(rot*Math.PI/180);CTX.globalAlpha=op;var g=CTX.createRadialGradient(0,0,0,0,0,sz*5);g.addColorStop(0,'rgba(255,248,180,1)');g.addColorStop(.3,'rgba(201,162,39,.75)');g.addColorStop(.7,'rgba(196,154,232,.2)');g.addColorStop(1,'rgba(196,154,232,0)');CTX.fillStyle=g;CTX.beginPath();CTX.arc(0,0,sz*5,0,Math.PI*2);CTX.fill();CTX.fillStyle='rgba(255,252,210,'+op+')';CTX.beginPath();CTX.arc(0,0,sz*.7,0,Math.PI*2);CTX.fill();CTX.strokeStyle='rgba(255,248,160,'+(op*.75)+')';CTX.lineWidth=sz*.55;CTX.lineCap='round';CTX.beginPath();CTX.moveTo(-sz*5.5,0);CTX.lineTo(sz*5.5,0);CTX.moveTo(0,-sz*5.5);CTX.lineTo(0,sz*5.5);CTX.stroke();CTX.strokeStyle='rgba(255,240,140,'+(op*.35)+')';CTX.lineWidth=sz*.35;CTX.beginPath();CTX.moveTo(-sz*3.5,-sz*3.5);CTX.lineTo(sz*3.5,sz*3.5);CTX.moveTo(sz*3.5,-sz*3.5);CTX.lineTo(-sz*3.5,sz*3.5);CTX.stroke();CTX.restore()}
-  function aS(){CTX.clearRect(0,0,SC.width,SC.height);if(starRainOpacity>0.01){STARS.forEach(function(s){s.y+=s.vy;s.x+=s.vx;s.ph+=0.022;s.rot+=0.12;if(s.y>SC.height+20){s.y=-15;s.x=Math.random()*SC.width}if(s.x<-10)s.x=SC.width+10;if(s.x>SC.width+10)s.x=-10;var tw=0.45+0.55*Math.abs(Math.sin(s.ph)),fo=s.op*tw*starRainOpacity;if(fo>0.02)dS(s.x,s.y,s.sz,fo,s.rot)})}requestAnimationFrame(aS)}
-  if(!isAndroid){aS();}
+  function aS(){CTX.clearRect(0,0,SC.width,SC.height);if(starRainOpacity>0.01){STARS.forEach(function(s){s.y+=s.vy;s.x+=s.vx;s.ph+=0.022;s.rot+=0.12;if(s.y>SC.height+20){s.y=-15;s.x=Math.random()*SC.width}if(s.x<-10)s.x=SC.width+10;if(s.x>SC.width+10)s.x=-10;var tw=0.45+0.55*Math.abs(Math.sin(s.ph)),fo=s.op*tw*starRainOpacity;if(fo>0.02)dS(s.x,s.y,s.sz,fo,s.rot)})}if(isAndroid&&starRainOpacity<=0.01){return;}requestAnimationFrame(aS)}
+  aS();
 
   // ── LOADING ──
   window.addEventListener('load',function(){
@@ -630,7 +632,7 @@
     gsap.set(ind,{opacity:1});
     var tl=gsap.timeline({scrollTrigger:{
       trigger:wrap,start:'top top',end:'+=300%',
-      scrub:true,
+      scrub:isAndroid?0.3:true,
       pin:true,
       anticipatePin:isAndroid?0:1,
       invalidateOnRefresh:true,
